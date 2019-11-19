@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.tcb.dao.IAssembleDao" >
+<mapper namespace="com.lly.dao.IAssembleDao" >
 
-    <resultMap id="assemblePojoResultMap" type="com.tcb.pojo.AssemblePojo">
+    <resultMap id="assemblePojoResultMap" type="com.lly.pojo.AssemblePojo">
         <id column="assemble_id" property="assembleId" jdbcType="BIGINT" />
         <result column="sn_code" property="snCode" jdbcType="VARCHAR"/>
         <result column="job_no" property="jobNo" jdbcType="VARCHAR"/>
@@ -12,10 +12,10 @@
         <result column="opt_user_id" property="optUserId" jdbcType="INTEGER"/>
         <result column="opt_user_name" property="optUserName" jdbcType="VARCHAR"/>
         <result column="opt_time" property="optTime" jdbcType="TIMESTAMP"/>
-        <association property="pnCode" column="pn_code" javaType="com.tcb.pojo.ParamPojo"
-                     resultMap="com.tcb.dao.IParamDao.paramPojoResultMap"></association>
-        <association property="assembleStatus" column="assemble_status" javaType="com.tcb.pojo.DeliverStatusPojo"
-                     resultMap="com.tcb.dao.IDeliverStatusDao.deliverStatusPojoResultMap"></association>
+        <association property="pnCode" column="pn_code" javaType="com.lly.pojo.ParamPojo"
+                     resultMap="com.lly.dao.IParamDao.paramPojoResultMap"></association>
+        <association property="assembleStatus" column="assemble_status" javaType="com.lly.pojo.DeliverStatusPojo"
+                     resultMap="com.lly.dao.IDeliverStatusDao.deliverStatusPojoResultMap"></association>
     </resultMap>
 
     <!-- 查询组装信息个数 -->
@@ -92,7 +92,7 @@
 
     <!-- 新增组装信息 -->
     <insert id="insertAssemble" useGeneratedKeys="true" keyProperty="assemblePojo.assembleId"
-            parameterType="com.tcb.pojo.AssemblePojo">
+            parameterType="com.lly.pojo.AssemblePojo">
         INSERT INTO tbl_sys_assemble(
             pn_code,
             sn_code,
@@ -115,7 +115,7 @@
     </insert>
 
     <!-- 更新组装信息 -->
-    <update id="updateAssemble" parameterType="com.tcb.pojo.AssemblePojo">
+    <update id="updateAssemble" parameterType="com.lly.pojo.AssemblePojo">
         UPDATE tbl_sys_assemble
         SET pn_code = #{assemblePojo.pnCode.paramCode}
         ,sn_code = #{assemblePojo.snCode}

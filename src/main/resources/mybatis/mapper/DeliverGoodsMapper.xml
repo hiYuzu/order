@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.tcb.dao.IDeliverGoodsDao">
+<mapper namespace="com.lly.dao.IDeliverGoodsDao">
 
-    <resultMap id="deliverGoodsPojoResultMap" type="com.tcb.pojo.DeliverGoodsPojo">
+    <resultMap id="deliverGoodsPojoResultMap" type="com.lly.pojo.DeliverGoodsPojo">
         <id column="goods_id" property="goodsId" jdbcType="BIGINT"/>
         <result column="sn_code" property="snCode" jdbcType="VARCHAR"/>
         <result column="install_enterprise" property="installEnterprise" jdbcType="VARCHAR"/>
@@ -23,12 +23,12 @@
         <result column="opt_user_id" property="optUserId" jdbcType="INTEGER"/>
         <result column="opt_user_name" property="optUserName" jdbcType="VARCHAR"/>
         <result column="opt_time" property="optTime" jdbcType="TIMESTAMP"/>
-        <association property="deliverPojo" column="deliver_id" javaType="com.tcb.pojo.DeliverPojo"
-                     resultMap="com.tcb.dao.IDeliverDao.deliverPojoResultMap"></association>
-        <association property="paramPojo" column="pn_code" javaType="com.tcb.pojo.ParamPojo"
-                     resultMap="com.tcb.dao.IParamDao.paramPojoResultMap1"></association>
-        <association property="assemblePojo" column="sn_code" javaType="com.tcb.pojo.AssemblePojo"
-                     resultMap="com.tcb.dao.IAssembleDao.assemblePojoResultMap"></association>
+        <association property="deliverPojo" column="deliver_id" javaType="com.lly.pojo.DeliverPojo"
+                     resultMap="com.lly.dao.IDeliverDao.deliverPojoResultMap"></association>
+        <association property="paramPojo" column="pn_code" javaType="com.lly.pojo.ParamPojo"
+                     resultMap="com.lly.dao.IParamDao.paramPojoResultMap1"></association>
+        <association property="assemblePojo" column="sn_code" javaType="com.lly.pojo.AssemblePojo"
+                     resultMap="com.lly.dao.IAssembleDao.assemblePojoResultMap"></association>
     </resultMap>
 
     <!-- 查询发货单货物个数 -->
@@ -266,7 +266,7 @@
     </update>
 
     <!-- 更新发货单货物状态 -->
-    <update id="updateDeliverGoodsStatus" parameterType="com.tcb.pojo.DeliverGoodsPojo">
+    <update id="updateDeliverGoodsStatus" parameterType="com.lly.pojo.DeliverGoodsPojo">
         UPDATE tbl_sys_deliver_goods
            SET goods_status = #{deliverGoodsPojo.goodsStatus},
                return_memo = #{deliverGoodsPojo.returnMemo}
@@ -274,14 +274,14 @@
     </update>
 
     <!-- 更新发货单货物备注 -->
-    <update id="updateDeliverGoodsMemo" parameterType="com.tcb.pojo.DeliverGoodsPojo">
+    <update id="updateDeliverGoodsMemo" parameterType="com.lly.pojo.DeliverGoodsPojo">
         UPDATE tbl_sys_deliver_goods
         SET goods_memo = #{deliverGoodsPojo.goodsMemo}
         WHERE goods_id = #{deliverGoodsPojo.goodsId}
     </update>
 
     <!-- 更新发货单货安装厂家 -->
-    <update id="updateDeliverGoodsInstallEnterprise" parameterType="com.tcb.pojo.DeliverGoodsPojo">
+    <update id="updateDeliverGoodsInstallEnterprise" parameterType="com.lly.pojo.DeliverGoodsPojo">
         UPDATE tbl_sys_deliver_goods
         SET install_enterprise = #{deliverGoodsPojo.installEnterprise}
         WHERE goods_id = #{deliverGoodsPojo.goodsId}

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.tcb.dao.INewsDao">
+<mapper namespace="com.lly.dao.INewsDao">
 
-    <resultMap id="newsPojoResultMap" type="com.tcb.pojo.NewsPojo">
+    <resultMap id="newsPojoResultMap" type="com.lly.pojo.NewsPojo">
         <id column="news_id" property="newsId" jdbcType="BIGINT"/>
         <result column="news_title" property="newsTitle" jdbcType="VARCHAR"/>
         <result column="news_content" property="newsContent" jdbcType="VARCHAR"/>
@@ -68,7 +68,7 @@
     </select>
 
     <!-- 新增公告 -->
-    <insert id="insertNews" parameterType="com.tcb.pojo.NewsPojo">
+    <insert id="insertNews" parameterType="com.lly.pojo.NewsPojo">
         INSERT INTO tbl_sys_news(
             news_title,
             news_content,
@@ -87,7 +87,7 @@
     </insert>
 
     <!-- 更新公告 -->
-    <update id="updateNews" parameterType="com.tcb.pojo.NewsPojo">
+    <update id="updateNews" parameterType="com.lly.pojo.NewsPojo">
         UPDATE tbl_sys_news
           SET news_title = #{newsPojo.newsTitle},
               news_content =  #{newsPojo.newsContent},

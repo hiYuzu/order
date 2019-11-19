@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.tcb.dao.IRepairDao">
+<mapper namespace="com.lly.dao.IRepairDao">
 
-    <resultMap id="goodsRepairResultMap" type="com.tcb.pojo.GoodsRepairPojo">
+    <resultMap id="goodsRepairResultMap" type="com.lly.pojo.GoodsRepairPojo">
         <id column="repair_id" property="repairId" jdbcType="BIGINT"/>
         <result column="repair_user" property="repairUser" jdbcType="VARCHAR"/>
         <result column="repair_time" property="repairTime" jdbcType="TIMESTAMP"/>
@@ -11,8 +11,8 @@
         <result column="opt_user_id" property="optUserId" jdbcType="INTEGER"/>
         <result column="opt_user_name" property="optUserName" jdbcType="VARCHAR"/>
         <result column="opt_time" property="optTime" jdbcType="TIMESTAMP"/>
-        <association property="goodsInstallPojo" column="install_id" javaType="com.tcb.pojo.GoodsInstallPojo"
-                     resultMap="com.tcb.dao.IInstallDao.goodsInstallResultMap"></association>
+        <association property="goodsInstallPojo" column="install_id" javaType="com.lly.pojo.GoodsInstallPojo"
+                     resultMap="com.lly.dao.IInstallDao.goodsInstallResultMap"></association>
     </resultMap>
 
     <!-- 查询设备维修记录个数 -->
@@ -154,7 +154,7 @@
     </select>
 
     <!-- 新增设备维修记录 -->
-    <insert id="insertRepairGoods" parameterType="com.tcb.pojo.GoodsRepairPojo">
+    <insert id="insertRepairGoods" parameterType="com.lly.pojo.GoodsRepairPojo">
         INSERT INTO tbl_sys_deliver_repair(
             install_id,
             repair_user,
@@ -173,7 +173,7 @@
     </insert>
 
     <!-- 修改设备维修记录 -->
-    <update id="updateRepairGoods" parameterType="com.tcb.pojo.GoodsRepairPojo">
+    <update id="updateRepairGoods" parameterType="com.lly.pojo.GoodsRepairPojo">
         UPDATE tbl_sys_deliver_repair
         SET install_id = #{goodsRepairPojo.goodsInstallPojo.installId}
             ,repair_user = #{goodsRepairPojo.repairUser}

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.tcb.dao.IDeliverDao">
+<mapper namespace="com.lly.dao.IDeliverDao">
 
-    <resultMap id="deliverPojoResultMap" type="com.tcb.pojo.DeliverPojo">
+    <resultMap id="deliverPojoResultMap" type="com.lly.pojo.DeliverPojo">
         <id column="deliver_id" property="deliverId" jdbcType="BIGINT"/>
         <result column="deliver_type" property="deliverType" jdbcType="INTEGER"/>
         <result column="contract_code" property="contractCode" jdbcType="VARCHAR"/>
@@ -20,12 +20,12 @@
         <result column="opt_user_id" property="optUserId" jdbcType="INTEGER"/>
         <result column="opt_user_name" property="optUserName" jdbcType="VARCHAR"/>
         <result column="opt_time" property="optTime" jdbcType="TIMESTAMP"/>
-        <association property="contractType" column="contract_type" javaType="com.tcb.pojo.ParamPojo"
-                     resultMap="com.tcb.dao.IParamDao.paramPojoResultMap"></association>
-        <association property="businessUser" column="business_user" javaType="com.tcb.pojo.UserPojo"
-                     resultMap="com.tcb.dao.IUserDao.userPojoResultMap"></association>
-        <association property="deliverStatus" column="deliver_status" javaType="com.tcb.pojo.DeliverStatusPojo"
-                     resultMap="com.tcb.dao.IDeliverStatusDao.deliverStatusPojoResultMap"></association>
+        <association property="contractType" column="contract_type" javaType="com.lly.pojo.ParamPojo"
+                     resultMap="com.lly.dao.IParamDao.paramPojoResultMap"></association>
+        <association property="businessUser" column="business_user" javaType="com.lly.pojo.UserPojo"
+                     resultMap="com.lly.dao.IUserDao.userPojoResultMap"></association>
+        <association property="deliverStatus" column="deliver_status" javaType="com.lly.pojo.DeliverStatusPojo"
+                     resultMap="com.lly.dao.IDeliverStatusDao.deliverStatusPojoResultMap"></association>
     </resultMap>
 
     <!-- 查询发货单数据个数 -->
@@ -153,7 +153,7 @@
 
     <!-- 新增发货单 -->
     <insert id="insertDeliver" useGeneratedKeys="true" keyProperty="deliverPojo.deliverId"
-            parameterType="com.tcb.pojo.DeliverPojo">
+            parameterType="com.lly.pojo.DeliverPojo">
         INSERT  INTO tbl_sys_deliver(
             <if test="deliverPojo.deliverType != null and deliverPojo.deliverType > 0">
                 deliver_type,
@@ -186,7 +186,7 @@
     </insert>
 
     <!-- 更新发货单 -->
-    <update id="updateDeliver" parameterType="com.tcb.pojo.DeliverPojo">
+    <update id="updateDeliver" parameterType="com.lly.pojo.DeliverPojo">
         UPDATE tbl_sys_deliver
         SET contract_code = #{deliverPojo.contractCode}
             ,contract_type = #{deliverPojo.contractType.paramCode}

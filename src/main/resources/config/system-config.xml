@@ -2,6 +2,6 @@
 <BackGround pversion="1.0">
 	<System-Config>
 		<RootUser>admin</RootUser>
-		<SysUrl>http://114.115.217.241:8084/</SysUrl>
+		<SysUrl>http://127.0.0.1:8085/</SysUrl>
 	</System-Config>
 </BackGround>

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.tcb.dao.IAuthoritySetDao" >
+<mapper namespace="com.lly.dao.IAuthoritySetDao" >
 
-    <resultMap id="authoritySetPojoResultMap" type="com.tcb.pojo.AuthoritySetPojo">
+    <resultMap id="authoritySetPojoResultMap" type="com.lly.pojo.AuthoritySetPojo">
         <id column="set_id" property="userId" jdbcType="INTEGER" />
         <result column="user_type" property="userCode" jdbcType="VARCHAR"/>
         <result column="authority_flag" property="userPassword" jdbcType="VARCHAR"/>
         <result column="opt_user_id" property="optUserId" jdbcType="INTEGER"/>
         <result column="opt_user_name" property="optUserName" jdbcType="VARCHAR"/>
         <result column="opt_time" property="optTime" jdbcType="TIMESTAMP"/>
-        <association property="pagePojo" column="page_id" javaType="com.tcb.pojo.PagePojo"
-                     resultMap="com.tcb.dao.IPageDao.pagePojoResultMap"></association>
+        <association property="pagePojo" column="page_id" javaType="com.lly.pojo.PagePojo"
+                     resultMap="com.lly.dao.IPageDao.pagePojoResultMap"></association>
     </resultMap>
 
     <!-- 是否存在页面权限 -->
@@ -25,7 +25,7 @@
     </select>
 
     <!-- 新增权限设置信息 -->
-    <insert id="insertAuthoritySet" parameterType="com.tcb.pojo.AuthoritySetPojo">
+    <insert id="insertAuthoritySet" parameterType="com.lly.pojo.AuthoritySetPojo">
         INSERT INTO tbl_sys_authority_set(
             user_type,
             page_code,
@@ -43,7 +43,7 @@
     </insert>
 
     <!-- 更新权限设置信息 -->
-    <update id="updateAuthoritySet" parameterType="com.tcb.pojo.AuthoritySetPojo">
+    <update id="updateAuthoritySet" parameterType="com.lly.pojo.AuthoritySetPojo">
         UPDATE tbl_sys_authority_set
         SET authority_flag = #{authoritySetPojo.authorityFlag}
         WHERE set_id = #{authoritySetPojo.setId}

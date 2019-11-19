@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.tcb.dao.IAssembleTestDao" >
+<mapper namespace="com.lly.dao.IAssembleTestDao" >
 
-    <resultMap id="assembleTestPojoResultMap" type="com.tcb.pojo.AssembleTestPojo">
+    <resultMap id="assembleTestPojoResultMap" type="com.lly.pojo.AssembleTestPojo">
         <id column="test_id" property="testId" jdbcType="BIGINT" />
         <result column="begin_time" property="beginTime" jdbcType="TIMESTAMP"/>
         <result column="end_time" property="endTime" jdbcType="TIMESTAMP"/>
@@ -11,8 +11,8 @@
         <result column="opt_user_id" property="optUserId" jdbcType="INTEGER"/>
         <result column="opt_user_name" property="optUserName" jdbcType="VARCHAR"/>
         <result column="opt_time" property="optTime" jdbcType="TIMESTAMP"/>
-        <association property="assemblePojo" column="assemble_id" javaType="com.tcb.pojo.AssemblePojo"
-                     resultMap="com.tcb.dao.IAssembleDao.assemblePojoResultMap"></association>
+        <association property="assemblePojo" column="assemble_id" javaType="com.lly.pojo.AssemblePojo"
+                     resultMap="com.lly.dao.IAssembleDao.assemblePojoResultMap"></association>
     </resultMap>
 
     <!-- 查询组装测试信息个数 -->
@@ -109,7 +109,7 @@
     </select>
 
     <!-- 新增组装测试信息 -->
-    <insert id="insertAssembleTest" parameterType="com.tcb.pojo.AssembleTestPojo">
+    <insert id="insertAssembleTest" parameterType="com.lly.pojo.AssembleTestPojo">
         INSERT INTO tbl_sys_assemble_test(
             assemble_id,
             begin_time,
@@ -128,7 +128,7 @@
     </insert>
 
     <!-- 更新组装测试信息 -->
-    <update id="updateAssembleTest" parameterType="com.tcb.pojo.AssembleTestPojo">
+    <update id="updateAssembleTest" parameterType="com.lly.pojo.AssembleTestPojo">
         UPDATE tbl_sys_assemble_test
         SET assemble_id = #{assembleTestPojo.assemblePojo.assembleId}
         ,begin_time = #{assembleTestPojo.beginTime}

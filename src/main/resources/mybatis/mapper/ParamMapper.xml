@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.tcb.dao.IParamDao">
+<mapper namespace="com.lly.dao.IParamDao">
 
-    <resultMap id="paramTypePojoResultMap" type="com.tcb.pojo.ParamType">
+    <resultMap id="paramTypePojoResultMap" type="com.lly.pojo.ParamType">
         <id column="type_id" property="typeId" jdbcType="INTEGER"/>
         <result column="type_code" property="typeCode" jdbcType="VARCHAR"/>
         <result column="type_name" property="typeName" jdbcType="VARCHAR"/>
         <result column="type_remark" property="typeRemark" jdbcType="VARCHAR"/>
     </resultMap>
 
-    <resultMap id="paramPojoResultMap" type="com.tcb.pojo.ParamPojo">
+    <resultMap id="paramPojoResultMap" type="com.lly.pojo.ParamPojo">
         <id column="param_id" property="paramId" jdbcType="INTEGER"/>
         <result column="param_code" property="paramCode" jdbcType="VARCHAR"/>
         <result column="param_name" property="paramName" jdbcType="VARCHAR"/>
         <result column="opt_user_id" property="optUserId" jdbcType="INTEGER"/>
         <result column="opt_user_name" property="optUserName" jdbcType="VARCHAR"/>
-        <association property="paramType" column="param_type" javaType="com.tcb.pojo.ParamType"
+        <association property="paramType" column="param_type" javaType="com.lly.pojo.ParamType"
                      resultMap="paramTypePojoResultMap"></association>
     </resultMap>
 
-    <resultMap id="paramPojoResultMap1" type="com.tcb.pojo.ParamPojo">
+    <resultMap id="paramPojoResultMap1" type="com.lly.pojo.ParamPojo">
         <id column="param_id_1" property="paramId" jdbcType="INTEGER"/>
         <result column="param_code_1" property="paramCode" jdbcType="VARCHAR"/>
         <result column="param_name_1" property="paramName" jdbcType="VARCHAR"/>
         <result column="opt_user_id_1" property="optUserId" jdbcType="INTEGER"/>
         <result column="opt_user_name_1" property="optUserName" jdbcType="VARCHAR"/>
-        <association property="paramType" column="param_type" javaType="com.tcb.pojo.ParamType"
+        <association property="paramType" column="param_type" javaType="com.lly.pojo.ParamType"
                      resultMap="paramTypePojoResultMap"></association>
     </resultMap>
 
@@ -97,7 +97,7 @@
     </select>
 
     <!-- 新增系统参数 -->
-    <insert id="insertParam" parameterType="com.tcb.pojo.ParamPojo">
+    <insert id="insertParam" parameterType="com.lly.pojo.ParamPojo">
         INSERT INTO tbl_sys_param(
             param_type,
             param_code,
@@ -112,7 +112,7 @@
     </insert>
 
     <!-- 更新系统参数 -->
-    <update id="updateParam" parameterType="com.tcb.pojo.ParamPojo">
+    <update id="updateParam" parameterType="com.lly.pojo.ParamPojo">
         UPDATE tbl_sys_param
         SET opt_time = #{paramPojo.optTime}
             ,param_type = #{paramPojo.paramType.typeCode}

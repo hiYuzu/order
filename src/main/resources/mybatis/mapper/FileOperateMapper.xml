@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.tcb.dao.IFileOperateDao">
+<mapper namespace="com.lly.dao.IFileOperateDao">
 	
-	<resultMap type="com.tcb.pojo.FilePojo" id="filePojoResultMap">
+	<resultMap type="com.lly.pojo.FilePojo" id="filePojoResultMap">
 		<id property="fileId" column="file_id" jdbcType="BIGINT"/>
 		<result property="fileName" column="file_name" jdbcType="VARCHAR"/>
 		<result property="filePath" column="file_path" jdbcType="VARCHAR"/>
@@ -11,8 +11,8 @@
 		<result column="opt_user_id" property="optUserId" jdbcType="INTEGER"/>
 		<result column="opt_user_name" property="optUserName" jdbcType="VARCHAR"/>
 		<result column="opt_time" property="optTime" jdbcType="TIMESTAMP"/>
-		<association property="goodsInstallPojo" column="install_id" javaType="com.tcb.pojo.GoodsInstallPojo"
-			resultMap="com.tcb.dao.IInstallDao.goodsInstallResultMap"></association>
+		<association property="goodsInstallPojo" column="install_id" javaType="com.lly.pojo.GoodsInstallPojo"
+			resultMap="com.lly.dao.IInstallDao.goodsInstallResultMap"></association>
 	</resultMap>
 
 	<!-- 获取货物安装上传文件个数 -->
@@ -90,7 +90,7 @@
 	</select>
 
 	<!-- 新增安装货物上传文件 -->
-	<insert id="insertInstallGoodsFile" parameterType="com.tcb.pojo.FilePojo">
+	<insert id="insertInstallGoodsFile" parameterType="com.lly.pojo.FilePojo">
 		INSERT INTO tbl_sys_deliver_file(
 			install_id,
 			file_name,

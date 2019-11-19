@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.tcb.dao.IBusinessDao">
+<mapper namespace="com.lly.dao.IBusinessDao">
 
     <!-- 发货单商务处理 -->
-    <update id="businessDeliver" parameterType="com.tcb.pojo.DeliverPojo">
+    <update id="businessDeliver" parameterType="com.lly.pojo.DeliverPojo">
         UPDATE tbl_sys_deliver
         SET deliver_no = #{deliverPojo.deliverNo}
         ,contract_warranty = #{deliverPojo.contractWarranty}
@@ -35,7 +35,7 @@
     </select>
 
     <!-- 更新技术合同相关信息 -->
-    <update id="updateTsContract" parameterType="com.tcb.pojo.DeliverPojo">
+    <update id="updateTsContract" parameterType="com.lly.pojo.DeliverPojo">
         UPDATE tbl_sys_deliver
         SET   contract_new_code = #{deliverPojo.contractNewCode},
         contract_begin_time = #{deliverPojo.contractBeginTime},

@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.tcb.dao.IAssemblePartDao" >
+<mapper namespace="com.lly.dao.IAssemblePartDao" >
 
-    <resultMap id="assemblePartPojoResultMap" type="com.tcb.pojo.AssemblePartPojo">
+    <resultMap id="assemblePartPojoResultMap" type="com.lly.pojo.AssemblePartPojo">
         <id column="part_id" property="partId" jdbcType="BIGINT" />
         <result column="part_no" property="partNo" jdbcType="VARCHAR"/>
         <result column="part_memo" property="partMemo" jdbcType="VARCHAR"/>
         <result column="opt_user_id" property="optUserId" jdbcType="INTEGER"/>
         <result column="opt_user_name" property="optUserName" jdbcType="VARCHAR"/>
         <result column="opt_time" property="optTime" jdbcType="TIMESTAMP"/>
-        <association property="assemblePojo" column="assemble_id" javaType="com.tcb.pojo.AssemblePojo"
-                     resultMap="com.tcb.dao.IAssembleDao.assemblePojoResultMap"></association>
-        <association property="partType" column="part_type" javaType="com.tcb.pojo.ParamPojo"
-                     resultMap="com.tcb.dao.IParamDao.paramPojoResultMap"></association>
+        <association property="assemblePojo" column="assemble_id" javaType="com.lly.pojo.AssemblePojo"
+                     resultMap="com.lly.dao.IAssembleDao.assemblePojoResultMap"></association>
+        <association property="partType" column="part_type" javaType="com.lly.pojo.ParamPojo"
+                     resultMap="com.lly.dao.IParamDao.paramPojoResultMap"></association>
     </resultMap>
 
     <!-- 查询组装部件信息个数 -->
