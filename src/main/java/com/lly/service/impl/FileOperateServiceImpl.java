@@ -11,12 +11,6 @@ import com.lly.util.FunctionUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * @Author: WangLei
- * @Description: 文件操作服务接口实现类
- * @Date: Create in 2018/2/27 13:48
- * @Modify by WangLei
- */
 @Service("fileOperateService")
 @Transactional(rollbackFor = Exception.class)
 public class FileOperateServiceImpl implements IFileOperateService {

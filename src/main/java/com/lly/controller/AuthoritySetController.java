@@ -20,12 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * @Author: WangLei
- * @Description: 权限设置控制器
- * @Date: Create in 2018/3/8 16:11
- * @Modify by WangLei
- */
 @Controller
 @RequestMapping("/AuthoritySetController")
 public class AuthoritySetController {

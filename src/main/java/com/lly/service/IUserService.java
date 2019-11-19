@@ -4,9 +4,6 @@ import com.lly.pojo.UserPojo;
 
 import java.util.List;
 
-/**
- * Created by Wanglei on 2018/1/24.
- */
 public interface IUserService {
 
     /**

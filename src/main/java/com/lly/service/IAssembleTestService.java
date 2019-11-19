@@ -5,12 +5,6 @@ import com.lly.pojo.AssembleTestPojo;
 
 import java.util.List;
 
-/**
- * @Author: WangLei
- * @Description: 组装测试服务接口
- * @Date: Create in 2019/3/25 14:40
- * @Modify by WangLei
- */
 public interface IAssembleTestService {
 
     /**

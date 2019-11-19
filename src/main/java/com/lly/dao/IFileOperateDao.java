@@ -4,12 +4,6 @@ import java.util.List;
 import com.lly.pojo.FilePojo;
 import org.apache.ibatis.annotations.Param;
 
-/**
- * @Author: WangLei
- * @Description: 文件操作数据库映射类
- * @Date: Create in 2018/2/27 9:56
- * @Modify by WangLei
- */
 public interface IFileOperateDao {
 
 	/**

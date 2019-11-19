@@ -21,12 +21,6 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @Author: WangLei
- * @Description: 组装部件控制器
- * @Date: Create in 2019/3/19 11:32
- * @Modify by WangLei
- */
 @Controller
 @RequestMapping("/AssemblePartController")
 public class AssemblePartController {

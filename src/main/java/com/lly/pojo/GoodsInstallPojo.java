@@ -2,12 +2,6 @@ package com.lly.pojo;
 
 import java.sql.Timestamp;
 
-/**
- * @Author: WangLei
- * @Description: 货物安装信息POJO
- * @Date: Create in 2018/2/27 10:17
- * @Modify by WangLei
- */
 public class GoodsInstallPojo extends BasePojo {
 
     private long installId;

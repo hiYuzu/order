@@ -12,12 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.List;
 
-/**
- * @Author: WangLei
- * @Description: 货物安装服务接口实现类
- * @Date: Create in 2018/2/27 13:49
- * @Modify by WangLei
- */
 @Service("installService")
 @Transactional(rollbackFor = Exception.class)
 public class InstallServiceImpl implements IInstallService {

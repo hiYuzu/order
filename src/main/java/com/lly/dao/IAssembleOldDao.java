@@ -5,12 +5,6 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-/**
- * @Author: WangLei
- * @Description: 组装老化数据库映射接口
- * @Date: Create in 2019/3/25 10:09
- * @Modify by WangLei
- */
 public interface IAssembleOldDao {
 
 

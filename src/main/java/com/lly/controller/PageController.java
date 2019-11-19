@@ -6,6 +6,7 @@ import com.lly.pojo.PagePojo;
 import com.lly.service.IAuthoritySetService;
 import com.lly.service.IPageService;
 import com.lly.util.DefaultParam;
+import com.sun.org.glassfish.gmbal.Description;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,12 +18,6 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @Author: WangLei
- * @Description: 系统页面控制器
- * @Date: Create in 2018/3/8 11:56
- * @Modify by WangLei
- */
 @Controller
 @RequestMapping("/PageController")
 public class PageController {

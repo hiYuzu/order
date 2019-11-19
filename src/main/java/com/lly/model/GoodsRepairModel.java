@@ -1,11 +1,5 @@
 package com.lly.model;
 
-/**
- * @Author: WangLei
- * @Description: 设备维修模板类
- * @Date: Create in 2018/3/2 9:16
- * @Modify by WangLei
- */
 public class GoodsRepairModel extends BaseModel {
 
     private String repairId;

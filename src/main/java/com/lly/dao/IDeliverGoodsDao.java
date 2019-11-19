@@ -5,12 +5,6 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-/**
- * @Author: WangLei
- * @Description: 发货单货物数据库映射类
- * @Date: Create in 2018/2/11 8:56
- * @Modify by WangLei
- */
 public interface IDeliverGoodsDao {
 
     /**

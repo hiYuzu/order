@@ -21,12 +21,6 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @Author: WangLei
- * @Description: 发货单控制器
- * @Date: Create in 2018/2/11 10:37
- * @Modify by WangLei
- */
 @Controller
 @RequestMapping("/DeliverController")
 public class DeliverController {

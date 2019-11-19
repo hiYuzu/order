@@ -3,12 +3,6 @@ package com.lly.pojo;
 
 import java.sql.Timestamp;
 
-/**
- * @Author: WangLei
- * @Description: 发货单POJO
- * @Date: Create in 2018/1/24 10:35
- * @Modify by WangLei
- */
 public class DeliverPojo extends BasePojo {
 
     private long deliverId;

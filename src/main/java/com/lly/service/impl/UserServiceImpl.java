@@ -9,9 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-/**
- * Created by Wanglei on 2018/1/24.
- */
 @Service("userService")
 @Transactional(rollbackFor = Exception.class)
 public class UserServiceImpl implements IUserService {

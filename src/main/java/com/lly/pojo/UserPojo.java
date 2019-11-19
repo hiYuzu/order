@@ -1,11 +1,5 @@
 package com.lly.pojo;
 
-/**
- * @Author: WangLei
- * @Description: 用户数据库映射类
- * @Date: Create in 2018/1/24 10:57
- * @Modify by WangLei
- */
 public class UserPojo extends BasePojo {
 
     private int userId;

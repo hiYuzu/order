@@ -11,12 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.List;
 
-/**
- * @Author: WangLei
- * @Description: 发货单商务处理服务接口实现类
- * @Date: Create in 2018/2/26 15:17
- * @Modify by WangLei
- */
 @Service("businessService")
 @Transactional(rollbackFor = Exception.class)
 public class BusinessServiceImpl implements IBusinessService {

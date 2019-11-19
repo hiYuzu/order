@@ -35,10 +35,7 @@ import org.apache.commons.io.FileUtils;
 import com.google.gson.Gson;
 
 /**
- * @Author: WangLei
- * @Description: 文件操作控制器（查询、上传、下载）
- * @Date: Create in 2018/2/27 13:48
- * @Modify by WangLei
+ * 文件操作控制器（查询、上传、下载）
  */
 @Controller
 @RequestMapping("/FileOperateController")

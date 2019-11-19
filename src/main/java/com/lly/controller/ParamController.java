@@ -21,12 +21,6 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @Author: WangLei
- * @Description:
- * @Date: Create in 2018/2/11 14:40
- * @Modify by WangLei
- */
 @Controller
 @RequestMapping("/ParamController")
 public class ParamController {

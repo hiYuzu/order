@@ -1,11 +1,5 @@
 package com.lly.model;
 
-/**
- * @Author: WangLei
- * @Description: 权限设置模板类
- * @Date: Create in 2018/3/12 8:34
- * @Modify by WangLei
- */
 public class AuthoritySetModel extends BaseModel {
 
     private String assemble1;

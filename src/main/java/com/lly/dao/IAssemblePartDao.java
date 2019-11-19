@@ -5,12 +5,6 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-/**
- * @Author: WangLei
- * @Description: 组装部件数据库映射接口
- * @Date: Create in 2019/3/18 13:22
- * @Modify by WangLei
- */
 public interface IAssemblePartDao {
 
     /**

@@ -5,12 +5,6 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-/**
- * @Author: WangLei
- * @Description: 权限设置数据库映射接口
- * @Date: Create in 2018/3/8 14:45
- * @Modify by WangLei
- */
 public interface IAuthoritySetDao {
 
     /**

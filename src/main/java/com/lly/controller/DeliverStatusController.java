@@ -16,12 +16,6 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @Author: WangLei
- * @Description: 发货单状态控制器
- * @Date: Create in 2019/1/24 10:37
- * @Modify by WangLei
- */
 @Controller
 @RequestMapping("/DeliverStatusController")
 public class DeliverStatusController {

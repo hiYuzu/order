@@ -9,12 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.List;
 
-/**
- * @Author: WangLei
- * @Description: 组装部件服务接口实现类
- * @Date: Create in 2019/3/18 15:33
- * @Modify by WangLei
- */
 @Service("assemblePartService")
 @Transactional(rollbackFor = Exception.class)
 public class AssemblePartServiceImpl implements IAssemblePartService {

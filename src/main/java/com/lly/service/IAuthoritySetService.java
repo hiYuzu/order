@@ -5,12 +5,6 @@ import com.lly.pojo.AuthoritySetPojo;
 import java.util.List;
 import java.util.Map;
 
-/**
- * @Author: WangLei
- * @Description: 权限设置服务接口
- * @Date: Create in 2018/3/8 15:59
- * @Modify by WangLei
- */
 public interface IAuthoritySetService {
 
     /**

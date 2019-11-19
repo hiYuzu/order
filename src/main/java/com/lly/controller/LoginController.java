@@ -5,6 +5,7 @@ import com.lly.model.UserModel;
 import com.lly.pojo.UserPojo;
 import com.lly.service.IUserService;
 import com.lly.util.DateUtil;
+import com.sun.org.glassfish.gmbal.Description;
 import org.apache.log4j.Logger;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
@@ -18,12 +19,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
-/**
- * @Author: WangLei
- * @Description:
- * @Date: Create in 2018/1/24 14:43
- * @Modify by WangLei
- */
 @Controller
 public class LoginController {
 

@@ -2,12 +2,6 @@ package com.lly.pojo;
 
 import java.sql.Timestamp;
 
-/**
- * @Author: WangLei
- * @Description: 设备维修信息POJO
- * @Date: Create in 2018/3/1 15:44
- * @Modify by WangLei
- */
 public class GoodsRepairPojo extends BasePojo {
 
     private long repairId;

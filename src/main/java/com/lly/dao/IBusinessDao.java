@@ -5,12 +5,6 @@ import org.apache.ibatis.annotations.Param;
 
 import java.sql.Timestamp;
 
-/**
- * @Author: WangLei
- * @Description: 发货单商务数据库映射类
- * @Date: Create in 2018/2/26 15:06
- * @Modify by WangLei
- */
 public interface IBusinessDao {
 
     /**

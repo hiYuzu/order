@@ -9,12 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.List;
 
-/**
- * @Author: WangLei
- * @Description: 发货单货物服务接口实现类
- * @Date: Create in 2018/2/11 11:41
- * @Modify by WangLei
- */
 @Service("deliverGoodsService")
 @Transactional(rollbackFor = Exception.class)
 public class DeliverGoodsServiceImpl implements IDeliverGoodsService {

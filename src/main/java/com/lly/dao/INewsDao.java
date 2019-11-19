@@ -5,12 +5,6 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-/**
- * @Author: WangLei
- * @Description: 公告数据库映射类
- * @Date: Create in 2018/3/12 15:25
- * @Modify by WangLei
- */
 public interface INewsDao {
 
     /**

@@ -4,12 +4,6 @@ import com.lly.pojo.NewsPojo;
 
 import java.util.List;
 
-/**
- * @Author: WangLei
- * @Description: 公告服务接口
- * @Date: Create in 2018/3/12 15:47
- * @Modify by Lenovo
- */
 public interface INewsService {
 
     /**

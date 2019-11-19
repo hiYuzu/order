@@ -17,12 +17,6 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @Author: WangLei
- * @Description: 设备维修服控制器
- * @Date: Create in 2018/3/2 9:10
- * @Modify by WangLei
- */
 @Controller
 @RequestMapping("/RepairController")
 public class RepairController {

@@ -19,12 +19,6 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @Author: WangLei
- * @Description:
- * @Date: Create in 2018/2/26 14:09
- * @Modify by WangLei
- */
 @Controller
 @RequestMapping("/BusinessController")
 public class BusinessController {

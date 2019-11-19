@@ -1,11 +1,5 @@
 package com.lly.util;
 
-/**
- * @Author: WangLei
- * @Description:
- * @Date: Create in 2018/1/26 14:15
- * @Modify by WangLei
- */
 public class DefaultParam {
 
     public static final int liSelectOk = 0;

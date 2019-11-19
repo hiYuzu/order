@@ -1,11 +1,5 @@
 package com.lly.pojo;
 
-/**
- * @Author: WangLei
- * @Description: 发货单货物POJO
- * @Date: Create in 2018/2/9 14:56
- * @Modify by WangLei
- */
 public class DeliverGoodsPojo extends BasePojo {
 
     private long goodsId;

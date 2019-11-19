@@ -5,12 +5,6 @@ import com.lly.pojo.DeliverPojo;
 
 import java.util.List;
 
-/**
- * @Author: WangLei
- * @Description: 发货单商务处理服务接口
- * @Date: Create in 2018/2/26 15:15
- * @Modify by WangLei
- */
 public interface IBusinessService {
 
     /**

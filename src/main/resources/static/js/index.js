@@ -114,7 +114,7 @@ layui.config({
 	        id: 'LAY_layuipro', //设定一个id，防止重复弹出
 	        btn: ['知道了'],
 	        moveType: 1, //拖拽模式，0或者1
-	        content: '<div style="padding:15px 20px; text-align:justify; line-height: 22px; text-indent:2em;border-bottom:1px solid #e2e2e2;"><p>系统流程：组装->测试->老化->库存->发货->商务->设备->维修</p><p>已正式运行，如有疑问，请联系开发所王垒，邮箱：wanglei@712.cn。</p></div>',
+	        content: '<div style="padding:15px 20px; text-align:justify; line-height: 22px; text-indent:2em;border-bottom:1px solid #e2e2e2;"><p>系统流程：组装->测试->老化->库存->发货->商务->设备->维修</p><p>已正式运行，如有疑问，请联系刘凌宇，微信：lly199872</p></div>',
 	        success: function(layero){
 				var btn = layero.find('.layui-layer-btn');
 				btn.css('text-align', 'center');

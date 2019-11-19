@@ -1,11 +1,5 @@
 package com.lly.model;
 
-/**
- * @Author: WangLei
- * @Description: 文件操作模板类
- * @Date: Create in 2018/2/27 14:19
- * @Modify by WangLei
- */
 public class FileModel extends BaseModel {
 
 	private String fileId;

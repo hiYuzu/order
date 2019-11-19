@@ -13,12 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.List;
 
-/**
- * @Author: WangLei
- * @Description: 组装测试接口实现类
- * @Date: Create in 2019/3/25 13:35
- * @Modify by WangLei
- */
 @Service("assembleTestService")
 @Transactional(rollbackFor = Exception.class)
 public class AssembleTestServiceImpl implements IAssembleTestService {

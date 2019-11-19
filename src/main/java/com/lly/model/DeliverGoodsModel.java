@@ -1,11 +1,5 @@
 package com.lly.model;
 
-/**
- * @Author: WangLei
- * @Description: 发货单货物模板类
- * @Date: Create in 2018/2/11 11:35
- * @Modify by WangLei
- */
 public class DeliverGoodsModel extends BaseModel {
 
     private String goodsId;

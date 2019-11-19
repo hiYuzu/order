@@ -5,12 +5,6 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-/**
- * @Author: WangLei
- * @Description: 组装部件服务接口
- * @Date: Create in 2019/3/18 14:40
- * @Modify by WangLei
- */
 public interface IAssemblePartService {
 
     /**

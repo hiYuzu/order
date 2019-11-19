@@ -1,11 +1,5 @@
 package com.lly.model;
 
-/**
- * @Author: WangLei
- * @Description: 系统页面模板类
- * @Date: Create in 2018/3/8 11:58
- * @Modify by WangLei
- */
 public class PageModel extends BaseModel {
 
     private String pageId;

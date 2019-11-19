@@ -11,6 +11,7 @@ import com.lly.pojo.ParamPojo;
 import com.lly.service.IDeliverGoodsService;
 import com.lly.util.DateUtil;
 import com.lly.util.DefaultParam;
+import com.sun.org.glassfish.gmbal.Description;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -23,12 +24,6 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @Author: WangLei
- * @Description: 发货单货物控制器
- * @Date: Create in 2018/2/12 15:58
- * @Modify by WangLei
- */
 @Controller
 @RequestMapping("/DeliverGoodsController")
 public class DeliverGoodsController {

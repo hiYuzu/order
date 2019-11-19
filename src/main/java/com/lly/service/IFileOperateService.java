@@ -3,12 +3,6 @@ package com.lly.service;
 import java.util.List;
 import com.lly.pojo.FilePojo;
 
-/**
- * @Author: WangLei
- * @Description: 文件操作服务接口
- * @Date: Create in 2018/2/27 13:48
- * @Modify by WangLei
- */
 public interface IFileOperateService {
 
 	/**

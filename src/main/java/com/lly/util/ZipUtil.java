@@ -7,13 +7,6 @@ import java.io.IOException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-
-/**
- * @Author: WangLei
- * @Description: 压缩文件工具类
- * @Date: Create in 2018/2/27 13:48
- * @Modify by WangLei
- */
 public class ZipUtil {
 
 	/**

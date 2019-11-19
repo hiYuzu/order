@@ -15,12 +15,6 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @Author: WangLei
- * @Description: 库存控制器
- * @Date: Create in 2019/3/28 13:53
- * @Modify by WangLei
- */
 @Controller
 @RequestMapping("/AssembleStockController")
 public class AssembleStockController {

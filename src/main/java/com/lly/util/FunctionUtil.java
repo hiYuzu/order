@@ -2,12 +2,6 @@ package com.lly.util;
 
 import java.io.File;
 
-/**
- * @Author: WangLei
- * @Description: 常用静态方法
- * @Date: Create in 2018/2/27 13:48
- * @Modify by WangLei
- */
 public class FunctionUtil {
 
 	/**

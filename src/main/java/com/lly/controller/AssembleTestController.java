@@ -19,12 +19,6 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @Author: WangLei
- * @Description: 组装测试控制器
- * @Date: Create in 2019/3/25 14:16
- * @Modify by WangLei
- */
 @Controller
 @RequestMapping("/AssembleTestController")
 public class AssembleTestController {

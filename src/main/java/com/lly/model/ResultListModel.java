@@ -5,12 +5,6 @@ import com.lly.util.DefaultParam;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @Author: WangLei
- * @Description: 数据列表模板类
- * @Date: Create in 2018/1/25 13:35
- * @Modify by WangLei
- */
 public class ResultListModel<T>{
 
 	/**

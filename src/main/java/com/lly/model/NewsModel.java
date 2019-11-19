@@ -1,11 +1,5 @@
 package com.lly.model;
 
-/**
- * @Author: WangLei
- * @Description: 公告模板类
- * @Date: Create in 2018/3/13 8:29
- * @Modify by WangLei
- */
 public class NewsModel extends BaseModel {
 
     private String newsId;

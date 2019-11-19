@@ -1,11 +1,5 @@
 package com.lly.pojo;
 
-/**
- * @Author: WangLei
- * @Description: 组装部件POJO
- * @Date: Create in 2019/3/18 10:25
- * @Modify by WangLei
- */
 public class AssemblePartPojo extends BasePojo {
 
     private Long partId;

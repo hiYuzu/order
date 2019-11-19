@@ -19,12 +19,6 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-/**
- * @Author: WangLei
- * @Description: 导出报表控制器
- * @Date: Create in 2018/3/14 9:27
- * @Modify by WangLei
- */
 @Controller
 @RequestMapping("/ReportController")
 public class ReportController {

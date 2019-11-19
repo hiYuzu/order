@@ -2,12 +2,6 @@ package com.lly.model;
 
 import java.util.List;
 
-/**
- * @Author: WangLei
- * @Description: 组装模板类
- * @Date: Create in 2019/3/19 9:19
- * @Modify by WangLei
- */
 public class AssembleModel extends BaseModel {
 
     private String assembleId;

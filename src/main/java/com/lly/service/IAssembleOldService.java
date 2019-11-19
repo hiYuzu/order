@@ -4,12 +4,6 @@ import com.lly.pojo.AssembleOldPojo;
 
 import java.util.List;
 
-/**
- * @Author: WangLei
- * @Description: 组装老化服务接口
- * @Date: Create in 2019/3/28 13:42
- * @Modify by WangLei
- */
 public interface IAssembleOldService {
 
     /**

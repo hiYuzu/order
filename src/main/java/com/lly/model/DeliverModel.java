@@ -2,12 +2,6 @@ package com.lly.model;
 
 import java.util.List;
 
-/**
- * @Author: WangLei
- * @Description: 发货单模板类
- * @Date: Create in 2018/2/11 10:40
- * @Modify by WangLei
- */
 public class DeliverModel extends BaseModel {
 
     private String deliverId;

@@ -21,12 +21,6 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @Author: WangLei
- * @Description:
- * @Date: Create in 2018/1/25 14:10
- * @Modify by WangLei
- */
 @Controller
 @RequestMapping("/UserController")
 public class UserController {

@@ -1,11 +1,5 @@
 package com.lly.model;
 
-/**
- * @Author: WangLei
- * @Description: 发货单状态模板类
- * @Date: Create in 2019/1/24 14:57
- * @Modify by WangLei
- */
 public class DeliverStatusModel extends BaseModel {
 
     private String statusId;

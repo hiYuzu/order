@@ -1,11 +1,5 @@
 package com.lly.pojo;
 
-/**
- * @Author: WangLei
- * @Description: 文件操作POJO
- * @Date: Create in 2018/2/27 10:17
- * @Modify by WangLei
- */
 public class FilePojo extends BasePojo {
 
 	private long fileId;

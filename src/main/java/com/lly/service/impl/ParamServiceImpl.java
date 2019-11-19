@@ -9,12 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.List;
 
-/**
- * @Author: WangLei
- * @Description: 系统参数服务接口实现类
- * @Date: Create in 2018/2/11 14:36
- * @Modify by WangLei
- */
 @Service("paramService")
 @Transactional(rollbackFor = Exception.class)
 public class ParamServiceImpl implements IParamService {

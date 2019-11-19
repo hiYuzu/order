@@ -1,11 +1,5 @@
 package com.lly.pojo;
 
-/**
- * @Author: WangLei
- * @Description: 系统参数类型POJO
- * @Date: Create in 2018/2/9 15:28
- * @Modify by WangLei
- */
 public class ParamType {
 
     private int typeId;

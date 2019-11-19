@@ -4,12 +4,6 @@ import com.lly.pojo.GoodsInstallPojo;
 
 import java.util.List;
 
-/**
- * @Author: WangLei
- * @Description: 货物安装服务接口
- * @Date: Create in 2018/2/27 13:48
- * @Modify by WangLei
- */
 public interface IInstallService {
 
     /**

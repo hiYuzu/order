@@ -1,11 +1,5 @@
 package com.lly.pojo;
 
-/**
- * @Author: WangLei
- * @Description: 公告POJO
- * @Date: Create in 2018/3/12 15:22
- * @Modify by WangLei
- */
 public class NewsPojo extends BasePojo {
 
     private long newsId;

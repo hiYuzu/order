@@ -5,12 +5,6 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-/**
- * @Author: WangLei
- * @Description: 设备维修数据库映射类
- * @Date: Create in 2018/3/1 15:47
- * @Modify by WangLei
- */
 public interface IRepairDao {
 
     /**

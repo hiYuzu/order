@@ -1,11 +1,5 @@
 package com.lly.pojo;
 
-/**
- * @Author: WangLei
- * @Description: 系统页面POJO
- * @Date: Create in 2018/3/8 11:36
- * @Modify by WangLei
- */
 public class PagePojo extends BasePojo {
 
     private int pageId;

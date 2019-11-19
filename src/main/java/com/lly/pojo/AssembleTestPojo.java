@@ -2,12 +2,6 @@ package com.lly.pojo;
 
 import java.sql.Timestamp;
 
-/**
- * @Author: WangLei
- * @Description: 组装测试POJO
- * @Date: Create in 2019/3/25 10:29
- * @Modify by WangLei
- */
 public class AssembleTestPojo extends BasePojo {
 
     private Long testId;

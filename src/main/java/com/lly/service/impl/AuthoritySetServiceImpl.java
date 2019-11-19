@@ -11,12 +11,6 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 
-/**
- * @Author: WangLei
- * @Description: 权限设置服务接口实现类
- * @Date: Create in 2018/3/8 16:02
- * @Modify by WangLei
- */
 @Service("authoritySetService")
 @Transactional(rollbackFor = Exception.class)
 public class AuthoritySetServiceImpl implements IAuthoritySetService {

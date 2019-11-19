@@ -2,12 +2,6 @@ package com.lly.pojo;
 
 import java.sql.Timestamp;
 
-/**
- * @Author: WangLei
- * @Description: 组装老化POJO
- * @Date: Create in 2019/3/25 10:35
- * @Modify by WangLei
- */
 public class AssembleOldPojo extends BasePojo {
 
     private Long oldId;

@@ -1,11 +1,5 @@
 package com.lly.model;
 
-/**
- * @Author: WangLei
- * @Description: 用户模板类
- * @Date: Create in 2018/1/25 13:38
- * @Modify by WangLei
- */
 public class UserModel extends BaseModel{
 
     private String userId;

@@ -5,18 +5,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.util.HashMap;
 import java.util.Map;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 
-/**
- * @Author: WangLei
- * @Description: 导出EXCEL工具类
- * @Date: Create in 2018/3/14 9:27
- * @Modify by WangLei
- */
 public class OutPutExcel {
 
     private Map<String,Template> getTemplateByType(String type){

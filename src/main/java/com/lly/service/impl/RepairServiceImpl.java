@@ -9,12 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.List;
 
-/**
- * @Author: WangLei
- * @Description: 设备维修服务接口实现类
- * @Date: Create in 2018/3/2 9:06
- * @Modify by WangLei
- */
 @Service("repairService")
 @Transactional(rollbackFor = Exception.class)
 public class RepairServiceImpl implements IRepairService {

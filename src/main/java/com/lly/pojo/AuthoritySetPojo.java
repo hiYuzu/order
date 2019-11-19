@@ -1,11 +1,5 @@
 package com.lly.pojo;
 
-/**
- * @Author: WangLei
- * @Description: 权限设置POJO
- * @Date: Create in 2018/3/8 15:04
- * @Modify by WangLei
- */
 public class AuthoritySetPojo extends BasePojo {
 
     private long setId;

@@ -11,12 +11,6 @@ import java.util.Map;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 
-/**
- * @Author: WangLei
- * @Description: 导出WORD工具类
- * @Date: Create in 2018/3/14 9:27
- * @Modify by WangLei
- */
 public class OutPutWord {
 
     private Map<String,Template> getTemplateByType(String type){

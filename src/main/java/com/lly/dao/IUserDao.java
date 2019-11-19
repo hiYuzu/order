@@ -7,12 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-/**
- * @Author: WangLei
- * @Description:
- * @Date: Create in 2018/1/24 10:35
- * @Modify by WangLei
- */
 @Repository
 public interface IUserDao {
 

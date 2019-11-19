@@ -4,12 +4,6 @@ import com.lly.pojo.DeliverGoodsPojo;
 
 import java.util.List;
 
-/**
- * @Author: WangLei
- * @Description: 发货单货物服务接口
- * @Date: Create in 2018/2/11 11:40
- * @Modify by WangLei
- */
 public interface IDeliverGoodsService {
 
     /**

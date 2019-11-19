@@ -1,11 +1,5 @@
 package com.lly.model;
 
-/**
- * @Author: WangLei
- * @Description: 组装部件模板类
- * @Date: Create in 2019/3/19 9:21
- * @Modify by WangLei
- */
 public class AssemblePartModel extends BaseModel {
 
     private String partId;

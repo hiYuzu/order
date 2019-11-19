@@ -23,10 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @Author: lly
- * @Description: 组装控制器
- * @Date: Create in 2019/3/19 9:12
- * @Modify by WangLei
+ *  组装控制器
  */
 @Controller
 @RequestMapping("/AssembleController")

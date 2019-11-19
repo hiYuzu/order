@@ -15,12 +15,6 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @Author: WangLei
- * @Description: 发货单服务接口实现类
- * @Date: Create in 2018/2/11 10:17
- * @Modify by WangLei
- */
 @Service("deliverService")
 @Transactional(rollbackFor = Exception.class)
 public class DeliverServiceImpl implements IDeliverService {

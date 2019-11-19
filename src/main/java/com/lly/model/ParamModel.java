@@ -1,11 +1,5 @@
 package com.lly.model;
 
-/**
- * @Author: WangLei
- * @Description: 系统参数模板类
- * @Date: Create in 2018/2/11 14:57
- * @Modify by WangLei
- */
 public class ParamModel extends BaseModel {
 
     private String paramId;

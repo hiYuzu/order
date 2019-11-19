@@ -8,6 +8,7 @@ import com.lly.pojo.NewsPojo;
 import com.lly.service.INewsService;
 import com.lly.util.DateUtil;
 import com.lly.util.DefaultParam;
+import com.sun.org.glassfish.gmbal.Description;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,12 +21,6 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @Author: WangLei
- * @Description: 公告控制器
- * @Date: Create in 2018/3/12 15:51
- * @Modify by WangLei
- */
 @Controller
 @RequestMapping("/NewsController")
 public class NewsController {

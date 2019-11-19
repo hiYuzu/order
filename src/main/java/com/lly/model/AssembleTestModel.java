@@ -1,11 +1,5 @@
 package com.lly.model;
 
-/**
- * @Author: WangLei
- * @Description: 组装测试模板类
- * @Date: Create in 2019/3/25 14:18
- * @Modify by WangLei
- */
 public class AssembleTestModel extends BaseModel {
 
     private String testId;

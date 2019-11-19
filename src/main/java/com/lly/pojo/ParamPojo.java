@@ -1,11 +1,5 @@
 package com.lly.pojo;
 
-/**
- * @Author: WangLei
- * @Description: 系统参数POJO
- * @Date: Create in 2018/1/24 10:35
- * @Modify by WangLei
- */
 public class ParamPojo extends BasePojo {
 
     private int paramId;

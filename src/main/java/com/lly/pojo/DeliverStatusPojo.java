@@ -1,11 +1,5 @@
 package com.lly.pojo;
 
-/**
- * @Author: WangLei
- * @Description: 发货单状态POJO
- * @Date: Create in 2018/2/9 14:41
- * @Modify by WangLei
- */
 public class DeliverStatusPojo {
 
     private int statusId;

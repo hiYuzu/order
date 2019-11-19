@@ -4,12 +4,6 @@ import com.lly.pojo.DeliverStatusPojo;
 
 import java.util.List;
 
-/**
- * @Author: WangLei
- * @Description: 发货单状态数据库接口
- * @Date: Create in 2018/1/24 10:57
- * @Modify by WangLei
- */
 public interface IDeliverStatusDao {
 
     /**

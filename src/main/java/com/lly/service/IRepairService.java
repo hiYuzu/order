@@ -4,12 +4,6 @@ import com.lly.pojo.GoodsRepairPojo;
 
 import java.util.List;
 
-/**
- * @Author: WangLei
- * @Description: 设备维修服务接口
- * @Date: Create in 2018/3/2 9:04
- * @Modify by WangLei
- */
 public interface IRepairService {
 
     /**

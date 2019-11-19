@@ -1,11 +1,5 @@
 package com.lly.model;
 
-/**
- * @Author: WangLei
- * @Description: 页面模板基类
- * @Date: Create in 2018/1/25 13:35
- * @Modify by WangLei
- */
 public class BaseModel {
 
     /**
