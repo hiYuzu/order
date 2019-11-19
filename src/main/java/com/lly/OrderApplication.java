@@ -21,7 +21,6 @@ public class OrderApplication extends SpringBootServletInitializer {
     private IUserService userService;
 
     public static void main(String[] args) {
-//		SpringApplication.run(OrderApplication.class, args);
         SpringApplication springApplication = new SpringApplication(OrderApplication.class);
         springApplication.addListeners(new SystemConfig());
         springApplication.run(args);
