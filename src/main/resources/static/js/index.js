@@ -30,11 +30,7 @@ layui.config({
     //隐藏左侧导航
     $(".hideMenu").click(function(){
         $(".layui-layout-admin").toggleClass("showMenu");
-        //渲染顶部窗口
-        // tab.move();
     });
-    //渲染左侧菜单
-    // tab.render();
 	//锁屏
 	function lockPage(){
 		layer.open({

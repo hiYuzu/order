@@ -131,11 +131,6 @@ layui.config({
                     var optionStr = "<option value=''>---请选择---</option>";
                     $.each(json.data, function (index, value) {
                         if (value.statusCode != "100" && value.statusCode != "102") {//去掉已保存和被拒绝
-                            // if(value.statusCode == "101"){
-                            //     optionStr += "<option value='" + value.statusCode + "' selected='selected'>" + value.statusName + "</option>";
-                            // }else{
-                            //     optionStr += "<option value='" + value.statusCode + "'>" + value.statusName + "</option>";
-                            // }
                             optionStr += "<option value='" + value.statusCode + "'>" + value.statusName + "</option>";
                         }
                     });
@@ -177,9 +172,9 @@ layui.config({
                 , {field: 'contractEndTime', title: '合同结束时间', minWidth: '120', sort: true}
                 , {field: 'deliverStatusName', title: '发货单状态', minWidth: '140', sort: true}
                 , {field: 'deliverRemark', title: '备注', minWidth: '180'}
-                , {field: 'optUserName', title: '操作者', minWidth: '120'}
-                , {field: 'optTime', title: '操作时间', minWidth: '180'}
-                , {title: '操作', fixed: 'right', minWidth: '180', align: 'center', toolbar: '#barDeliverList'}
+                , {field: 'optUserName', title: '操作者', minWidth: '80'}
+                , {field: 'optTime', title: '操作时间', minWidth: '160'}
+                , {title: '操作', fixed: 'right', minWidth: '240', align: 'center', toolbar: '#barDeliverList'}
             ]]
         });
     }

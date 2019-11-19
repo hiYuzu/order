@@ -123,14 +123,14 @@ layui.config({
             ,
             page: true //开启分页
             ,
-            cols: [[{field: 'contractCode', title: '合同号码', minWidth: '160', sort: true}
+            cols: [[{field: 'contractCode', title: '合同号码', minWidth: '120', sort: true}
                 , {field: 'contractTypeName', title: '合同类型', minWidth: '100', sort: true}
                 , {field: 'deliverTypeName', title: '单据类型', minWidth: '100', sort: true}
                 , {field: 'pnName', title: 'P/N', minWidth: '100', sort: true}
                 , {field: 'snCode', title: 'S/N', minWidth: '160', sort: true}
                 , {field: 'goodsMemo', title: '发货设备备注', minWidth: '160'}
                 , {field: 'installEnterprise', title: '安装企业', minWidth: '160', sort: true}
-                , {field: 'contractWarranty', title: '合同保质期', minWidth: '120', sort: true}
+                , {field: 'contractWarranty', title: '合同保质期', minWidth: '80', sort: true}
                 , {field: 'contractBeginTime', title: '合同开始时间', minWidth: '120', sort: true}
                 , {field: 'contractEndTime', title: '合同结束时间', minWidth: '120', sort: true}
                 , {field: 'installStatusName', title: '安装状态', minWidth: '140', sort: true}
@@ -138,9 +138,9 @@ layui.config({
                 , {field: 'warrantyPeriod', title: '质保期限', minWidth: '120', sort: true}
                 , {field: 'instrumentBrand', title: '仪器品牌', minWidth: '120', sort: true}
                 , {field: 'installMemo', title: '安装备注', minWidth: '160'}
-                , {field: 'optUserName', title: '操作者', minWidth: '120'}
-                , {field: 'optTime', title: '操作时间', minWidth: '180'}
-                , {title: '操作', fixed: 'right', minWidth: 180, align: 'center', toolbar: '#barInstallList'}
+                , {field: 'optUserName', title: '操作者', minWidth: '100'}
+                , {field: 'optTime', title: '操作时间', minWidth: '160'}
+                , {title: '操作', fixed: 'right', minWidth: 220, align: 'center', toolbar: '#barInstallList'}
             ]]
         });
     }
@@ -148,6 +148,7 @@ layui.config({
     //监听工具条
     table.on('tool(installListFilter)', function (obj) {
         var data = obj.data;
+        console.log(data);
         if (data == null || data == "") {
             layer.msg("请选择需要操作的设备！");
             return;

@@ -119,9 +119,9 @@ layui.config({
                 , {field: 'contractCode', title: '合同号码', minWidth: '160', sort: true}
                 , {field: 'deliverStatusName', title: '外购单状态', minWidth: '140', sort: true}
                 , {field: 'deliverRemark', title: '备注', minWidth: '180'}
-                , {field: 'optUserName', title: '操作者', minWidth: '120'}
+                , {field: 'optUserName', title: '操作者', minWidth: '100'}
                 , {field: 'optTime', title: '操作时间', minWidth: '180'}
-                , {title: '操作', fixed: 'right', minWidth: 160, align: 'center', toolbar: '#barOutsourcingList'}
+                , {title: '操作', fixed: 'right', minWidth: 180, align: 'center', toolbar: '#barOutsourcingList'}
             ]]
         });
     }

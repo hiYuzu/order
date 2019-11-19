@@ -24,11 +24,6 @@ var navs = [{
     "href": "page/stock/stockList.html",
     "spread": false
 }, {
-    "title": "外购管理",
-    "icon": "&#xe647;",
-    "href": "page/outsourcing/outsourcingList.html",
-    "spread": false
-}, {
     "title": "发货管理",
     "icon": "icon-text",
     "href": "page/deliver/deliverList.html",
@@ -47,6 +42,11 @@ var navs = [{
     "title": "维修管理",
     "icon": "icon-shuaxin1",
     "href": "page/repair/repairList.html",
+    "spread": false
+}, {
+    "title": "外购管理",
+    "icon": "&#xe647;",
+    "href": "page/outsourcing/outsourcingList.html",
     "spread": false
 }, {
     "title": "用户管理",
@@ -69,24 +69,4 @@ var navs = [{
     "href": "page/news/newsList.html",
     "spread": false
 }
-// ,{
-// 	"title" : "二级菜单演示",
-// 	"icon" : "&#xe61c;",
-// 	"href" : "",
-// 	"spread" : false,
-// 	"children" : [
-// 		{
-// 			"title" : "二级菜单1",
-// 			"icon" : "&#xe631;",
-// 			"href" : "",
-// 			"spread" : false
-// 		},
-// 		{
-// 			"title" : "二级菜单2",
-// 			"icon" : "&#xe631;",
-// 			"href" : "",
-// 			"spread" : false
-// 		}
-// 	]
-// }
 ];

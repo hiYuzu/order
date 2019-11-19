@@ -1,6 +1,3 @@
-/**
- * Created by Lenovo on 2018/1/25.
- */
 //ajax验证数据
 //获取input的所有id
 function ajaxValidate(){

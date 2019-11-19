@@ -192,7 +192,7 @@ layui.config({
             instrumentBrand: function (value, item) {
                 if ($("input[name='installStatusCode']:checked").val() == "1") {
                     if (value == "" || value == null) {
-                        return "请输入数采仪品牌";
+                        return "请输入外部仪器品牌";
                     }
                 }
             }
