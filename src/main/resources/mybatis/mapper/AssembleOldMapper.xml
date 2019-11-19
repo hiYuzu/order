@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tcb.dao.IAssembleOldDao" >
+
+    <resultMap id="assembleOldPojoResultMap" type="com.tcb.pojo.AssembleOldPojo">
+        <id column="old_id" property="oldId" jdbcType="BIGINT" />
+        <result column="begin_time" property="beginTime" jdbcType="TIMESTAMP"/>
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP"/>
+        <result column="pass_flag" property="passFlag" jdbcType="TINYINT"/>
+        <result column="old_memo" property="oldMemo" jdbcType="VARCHAR"/>
+        <result column="opt_user_id" property="optUserId" jdbcType="INTEGER"/>
+        <result column="opt_user_name" property="optUserName" jdbcType="VARCHAR"/>
+        <result column="opt_time" property="optTime" jdbcType="TIMESTAMP"/>
+        <association property="assemblePojo" column="assemble_id" javaType="com.tcb.pojo.AssemblePojo"
+                     resultMap="com.tcb.dao.IAssembleDao.assemblePojoResultMap"></association>
+    </resultMap>
+
+    <!-- 查询组装老化信息个数 -->
+    <select id="getAssembleOldCount" resultType="java.lang.Integer">
+        SELECT COUNT(DISTINCT tsa.assemble_id)
+        FROM tbl_sys_assemble tsa
+        INNER JOIN tbl_sys_param tsp ON tsa.pn_code = tsp.param_code
+        INNER JOIN tbl_util_deliver_status tuds ON tsa.assemble_status = tuds.status_code
+        LEFT JOIN tbl_sys_assemble_old tsao ON tsa.assemble_id = tsao.assemble_id
+        LEFT JOIN tbl_sys_user tsu ON tsao.opt_user = tsu.user_id
+        <where>
+            <if test="assembleOldPojo.assemblePojo != null and assembleOldPojo.assemblePojo.assembleId != null
+                and assembleOldPojo.assemblePojo.assembleId>0">
+                tsa.assemble_id = #{assembleOldPojo.assemblePojo.assembleId}
+            </if>
+            <if test="assembleOldPojo.assemblePojo != null and assembleOldPojo.assemblePojo.pnCode != null
+                and assembleOldPojo.assemblePojo.pnCode.paramCode != null and assembleOldPojo.assemblePojo.pnCode.paramCode != ''">
+                AND tsa.pn_code = #{assembleOldPojo.assemblePojo.pnCode.paramCode}
+            </if>
+            <if test="assembleOldPojo.assemblePojo != null and assembleOldPojo.assemblePojo.snCode != null
+                and assembleOldPojo.assemblePojo.snCode !=''">
+                AND tsa.sn_code LIKE CONCAT('%',CONCAT(#{assembleOldPojo.assemblePojo.snCode},'%'))
+            </if>
+            <if test="assembleOldPojo.assemblePojo != null and assembleOldPojo.assemblePojo.jobNo != null
+                and assembleOldPojo.assemblePojo.jobNo != ''">
+                AND tsa.job_no LIKE CONCAT('%',CONCAT(#{assembleOldPojo.assemblePojo.jobNo},'%'))
+            </if>
+            <if test="statusCodeList != null and statusCodeList.size()>0">
+                AND tsa.assemble_status IN
+                <foreach collection="statusCodeList" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <!-- 新增组装老化信息 -->
+    <select id="getAssembleOld" resultMap="assembleOldPojoResultMap">
+        SELECT DISTINCT
+            tsa.assemble_id,
+            tsp.param_code,
+            tsp.param_name,
+            tuds.status_id,
+            tuds.status_code,
+            tuds.status_name,
+            tsa.sn_code,
+            tsa.assemble_status,
+            tsa.complete_date,
+            tsa.job_no,
+            tsa.crux_no,
+            tsa.assemble_memo,
+            tsao.old_id,
+            tsao.begin_time,
+            tsao.end_time,
+            tsao.pass_flag,
+            tsao.old_memo,
+            tsao.opt_user AS opt_user_id,
+            tsu.user_name AS opt_user_name,
+            tsao.opt_time
+        FROM tbl_sys_assemble tsa
+        INNER JOIN tbl_sys_param tsp ON tsa.pn_code = tsp.param_code
+        INNER JOIN tbl_util_deliver_status tuds ON tsa.assemble_status = tuds.status_code
+        LEFT JOIN tbl_sys_assemble_old tsao ON tsa.assemble_id = tsao.assemble_id
+        LEFT JOIN tbl_sys_user tsu ON tsao.opt_user = tsu.user_id
+        <where>
+            <if test="assembleOldPojo.assemblePojo != null and assembleOldPojo.assemblePojo.assembleId != null
+                and assembleOldPojo.assemblePojo.assembleId>0">
+                tsa.assemble_id = #{assembleOldPojo.assemblePojo.assembleId}
+            </if>
+            <if test="assembleOldPojo.assemblePojo != null and assembleOldPojo.assemblePojo.pnCode != null
+                and assembleOldPojo.assemblePojo.pnCode.paramCode != null and assembleOldPojo.assemblePojo.pnCode.paramCode != ''">
+                AND tsa.pn_code = #{assembleOldPojo.assemblePojo.pnCode.paramCode}
+            </if>
+            <if test="assembleOldPojo.assemblePojo != null and assembleOldPojo.assemblePojo.snCode != null
+                and assembleOldPojo.assemblePojo.snCode !=''">
+                AND tsa.sn_code LIKE CONCAT('%',CONCAT(#{assembleOldPojo.assemblePojo.snCode},'%'))
+            </if>
+            <if test="assembleOldPojo.assemblePojo != null and assembleOldPojo.assemblePojo.jobNo != null
+                and assembleOldPojo.assemblePojo.jobNo != ''">
+                AND tsa.job_no LIKE CONCAT('%',CONCAT(#{assembleOldPojo.assemblePojo.jobNo},'%'))
+            </if>
+            <if test="statusCodeList != null and statusCodeList.size()>0">
+                AND tsa.assemble_status IN
+                <foreach collection="statusCodeList" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        ORDER BY tsa.crux_no
+        <if test="assembleOldPojo.rowIndex != null and assembleOldPojo.rowIndex >=0
+            and assembleOldPojo.rowCount != null and assembleOldPojo.rowCount>0">
+            LIMIT #{assembleOldPojo.rowIndex},#{assembleOldPojo.rowCount}
+        </if>
+    </select>
+
+    <!-- 新增组装老化信息 -->
+    <insert id="insertAssembleOld" parameterType="com.tcb.pojo.AssembleOldPojo">
+        INSERT INTO tbl_sys_assemble_old(
+            assemble_id,
+            begin_time,
+            end_time,
+            pass_flag,
+            old_memo,
+            opt_user
+        )VALUES (
+            #{assembleOldPojo.assemblePojo.assembleId},
+            #{assembleOldPojo.beginTime},
+            #{assembleOldPojo.endTime},
+            #{assembleOldPojo.passFlag},
+            #{assembleOldPojo.oldMemo},
+            #{assembleOldPojo.optUserId}
+        )
+    </insert>
+
+    <!-- 更新组装老化信息 -->
+    <update id="updateAssembleOld" parameterType="com.tcb.pojo.AssembleOldPojo">
+        UPDATE tbl_sys_assemble_old
+        SET assemble_id = #{assembleOldPojo.assemblePojo.assembleId}
+        ,begin_time = #{assembleOldPojo.beginTime}
+        ,end_time = #{assembleOldPojo.endTime}
+        ,pass_flag = #{assembleOldPojo.passFlag}
+        ,old_memo = #{assembleOldPojo.oldMemo}
+        ,opt_time = #{assembleOldPojo.optTime}
+        <if test="assembleOldPojo.optUserId != null and assembleOldPojo.optUserId>0">
+            ,opt_user = #{assembleOldPojo.optUserId}
+        </if>
+        WHERE old_id =  #{assembleOldPojo.oldId}
+    </update>
+
+    <!-- 删除组装老化信息 -->
+    <delete id="deleteAssembleOld" parameterType="java.util.List">
+        DELETE FROM tbl_sys_assemble_old
+        <where>
+            <choose>
+                <when test="idList != null and idList.size()>0">
+                    old_id IN
+                    <foreach collection="idList" item="item" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </when>
+                <otherwise>
+                    old_id IS NULL
+                </otherwise>
+            </choose>
+        </where>
+    </delete>
+
+    <!-- 组装老化是否能被删除 -->
+    <select id="canAssembleOldDelete" resultType="java.lang.Integer">
+        SELECT COUNT(DISTINCT tsa.assemble_id)
+        FROM tbl_sys_assemble tsa
+        WHERE tsa.assemble_id = #{assembleId}
+        AND tsa.assemble_status IN ('071','080')
+    </select>
+
+    <!-- 组装老化是否能被修改 -->
+    <select id="canAssembleOldModify" resultType="java.lang.Integer">
+        SELECT COUNT(DISTINCT tsa.assemble_id)
+        FROM tbl_sys_assemble tsa
+        WHERE tsa.assemble_id = #{assembleId}
+        AND tsa.assemble_status IN ('071','080')
+    </select>
+
+    <!-- 是否存在组装老化 -->
+    <select id="existAssembleOld" resultType="java.lang.Integer">
+        SELECT COUNT(DISTINCT old_id)
+        FROM tbl_sys_assemble_old
+        WHERE assemble_id = #{assembleId}
+    </select>
+
+</mapper>

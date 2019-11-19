@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tcb.dao.IDeliverGoodsDao">
+
+    <resultMap id="deliverGoodsPojoResultMap" type="com.tcb.pojo.DeliverGoodsPojo">
+        <id column="goods_id" property="goodsId" jdbcType="BIGINT"/>
+        <result column="sn_code" property="snCode" jdbcType="VARCHAR"/>
+        <result column="install_enterprise" property="installEnterprise" jdbcType="VARCHAR"/>
+        <result column="job_no" property="jobNo" jdbcType="VARCHAR"/>
+        <result column="analyzer_number" property="analyzerNumber" jdbcType="VARCHAR"/>
+        <result column="goods_amount" property="goodsAmount" jdbcType="VARCHAR"/>
+        <result column="goods_status" property="goodsStatus" jdbcType="BOOLEAN"/>
+        <result column="goods_memo" property="goodsMemo" jdbcType="VARCHAR"/>
+        <result column="return_memo" property="returnMemo" jdbcType="VARCHAR"/>
+        <!-- 外购祥光-->
+        <result column="goods_name" property="goodsName" jdbcType="VARCHAR"/>
+        <result column="purchase_contract" property="purchaseContract" jdbcType="VARCHAR"/>
+        <result column="storage_date" property="storageDate" jdbcType="VARCHAR"/>
+        <result column="goods_supplier" property="goodsSupplier" jdbcType="VARCHAR"/>
+        <result column="deliver_point" property="deliverPoint" jdbcType="VARCHAR"/>
+        <result column="warranty_clause" property="warrantyClause" jdbcType="VARCHAR"/>
+
+        <result column="opt_user_id" property="optUserId" jdbcType="INTEGER"/>
+        <result column="opt_user_name" property="optUserName" jdbcType="VARCHAR"/>
+        <result column="opt_time" property="optTime" jdbcType="TIMESTAMP"/>
+        <association property="deliverPojo" column="deliver_id" javaType="com.tcb.pojo.DeliverPojo"
+                     resultMap="com.tcb.dao.IDeliverDao.deliverPojoResultMap"></association>
+        <association property="paramPojo" column="pn_code" javaType="com.tcb.pojo.ParamPojo"
+                     resultMap="com.tcb.dao.IParamDao.paramPojoResultMap1"></association>
+        <association property="assemblePojo" column="sn_code" javaType="com.tcb.pojo.AssemblePojo"
+                     resultMap="com.tcb.dao.IAssembleDao.assemblePojoResultMap"></association>
+    </resultMap>
+
+    <!-- 查询发货单货物个数 -->
+    <select id="getDeliverGoodsCount" resultType="java.lang.Integer">
+        SELECT
+        COUNT(DISTINCT tsd.deliver_id)
+        FROM
+        tbl_sys_deliver_goods tsdg
+        INNER JOIN tbl_sys_deliver tsd ON tsdg.deliver_id = tsd.deliver_id
+        INNER JOIN tbl_sys_param tsp ON tsdg.pn_code = tsp.param_code
+        LEFT JOIN tbl_sys_assemble tsa ON tsdg.sn_code = tsa.sn_code
+        LEFT JOIN tbl_sys_user tsup ON tsdg.opt_user = tsup.user_id
+        <where>
+            <if test="deliverGoodsPojo.deliverPojo != null and deliverGoodsPojo.deliverPojo.deliverId != null
+            and deliverGoodsPojo.deliverPojo.deliverId > 0">
+                tsdg.deliver_id = #{deliverGoodsPojo.deliverPojo.deliverId}
+            </if>
+            <if test="deliverGoodsPojo.installEnterprise != null and deliverGoodsPojo.installEnterprise != ''">
+                AND tsdg.install_enterprise LIKE CONCAT('%',CONCAT(#{deliverGoodsPojo.installEnterprise},'%'))
+            </if>
+            <if test="deliverGoodsPojo.paramPojo != null and deliverGoodsPojo.paramPojo.paramCode != null and deliverGoodsPojo.paramPojo.paramCode != ''">
+                AND tsdg.pn_code = #{deliverGoodsPojo.paramPojo.paramCode}
+            </if>
+            <if test="deliverGoodsPojo.snCode != null and deliverGoodsPojo.snCode != ''">
+                AND tsdg.sn_code LIKE CONCAT('%',CONCAT(#{deliverGoodsPojo.snCode},'%'))
+            </if>
+        </where>
+    </select>
+
+    <!-- 查询发货单货物 -->
+    <select id="getDeliverGoods" resultMap="deliverGoodsPojoResultMap">
+        SELECT DISTINCT
+            tsdg.goods_id,
+            tsdg.deliver_id,
+            tsa.assemble_id,
+            tsp.param_id AS param_id_1,
+            tsp.param_code AS param_code_1,
+            tsp.param_name AS param_name_1,
+            tsdg.sn_code,
+            tsdg.install_enterprise,
+            tsdg.job_no,
+            tsdg.analyzer_number,
+            tsdg.goods_amount,
+            tsdg.goods_status,
+            tsdg.goods_memo,
+            tsdg.return_memo,
+            tsdg.goods_name,
+            tsdg.purchase_contract,
+            tsdg.storage_date,
+            tsdg.goods_supplier,
+            tsdg.deliver_point,
+            tsdg.warranty_clause,
+            tsdg.opt_user AS opt_user_id,
+            tsup.user_name AS opt_user_name,
+            tsdg.opt_time
+        FROM tbl_sys_deliver_goods tsdg
+        INNER JOIN tbl_sys_deliver tsd ON tsdg.deliver_id = tsd.deliver_id
+        INNER JOIN tbl_sys_param tsp ON tsdg.pn_code = tsp.param_code
+        LEFT JOIN tbl_sys_assemble tsa ON tsdg.sn_code = tsa.sn_code
+        LEFT JOIN tbl_sys_user tsup ON tsdg.opt_user = tsup.user_id
+        <where>
+            <if test="deliverGoodsPojo.deliverPojo != null and deliverGoodsPojo.deliverPojo.deliverId != null
+            and deliverGoodsPojo.deliverPojo.deliverId > 0">
+                tsdg.deliver_id = #{deliverGoodsPojo.deliverPojo.deliverId}
+            </if>
+            <if test="deliverGoodsPojo.installEnterprise != null and deliverGoodsPojo.installEnterprise != ''">
+                AND tsdg.install_enterprise LIKE CONCAT('%',CONCAT(#{deliverGoodsPojo.installEnterprise},'%'))
+            </if>
+            <if test="deliverGoodsPojo.paramPojo != null and deliverGoodsPojo.paramPojo.paramCode != null and deliverGoodsPojo.paramPojo.paramCode != ''">
+                AND tsdg.pn_code = #{deliverGoodsPojo.paramPojo.paramCode}
+            </if>
+            <if test="deliverGoodsPojo.snCode != null and deliverGoodsPojo.snCode != ''">
+                AND tsdg.sn_code LIKE CONCAT('%',CONCAT(#{deliverGoodsPojo.snCode},'%'))
+            </if>
+        </where>
+        <if test="deliverGoodsPojo.rowIndex != null and deliverGoodsPojo.rowIndex >=0
+        and deliverGoodsPojo.rowCount != null and deliverGoodsPojo.rowCount>0">
+            LIMIT #{deliverGoodsPojo.rowIndex},#{deliverGoodsPojo.rowCount}
+        </if>
+    </select>
+
+    <!-- 查询发货单货物(根据发货单Id) -->
+    <select id="getDeliverGoodsByDeliverId" resultMap="deliverGoodsPojoResultMap">
+        SELECT DISTINCT
+            tsdg.goods_id,
+            tsdg.deliver_id,
+            tsa.assemble_id,
+            tsp.param_id AS param_id_1,
+            tsp.param_code AS param_code_1,
+            tsp.param_name AS param_name_1,
+            tsdg.sn_code,
+            tsdg.install_enterprise,
+            tsdg.job_no,
+            tsdg.analyzer_number,
+            tsdg.goods_amount,
+            tsdg.goods_status,
+            tsdg.goods_memo,
+            tsdg.return_memo,
+            tsdg.goods_name,
+            tsdg.purchase_contract,
+            tsdg.storage_date,
+            tsdg.goods_supplier,
+            tsdg.deliver_point,
+            tsdg.warranty_clause,
+            tsdg.opt_user AS opt_user_id,
+            tsup.user_name AS opt_user_name
+        FROM tbl_sys_deliver_goods tsdg
+        INNER JOIN tbl_sys_deliver tsd ON tsdg.deliver_id = tsd.deliver_id
+        INNER JOIN tbl_sys_param tsp ON tsdg.pn_code = tsp.param_code
+        LEFT JOIN tbl_sys_assemble tsa ON tsdg.sn_code = tsa.sn_code
+        LEFT JOIN tbl_sys_user tsup ON tsdg.opt_user = tsup.user_id
+        WHERE tsdg.deliver_id = #{deliverId}
+    </select>
+
+    <!-- 新增发货单货物 -->
+    <insert id="insertDeliverGoods" parameterType="java.util.List">
+        INSERT INTO tbl_sys_deliver_goods(
+            deliver_id,
+            pn_code,
+            sn_code,
+            install_enterprise,
+            job_no,
+            analyzer_number,
+            <foreach collection="deliverGoodsPojoList" item="item" index="index" separator=",">
+                <if test="item.goodsAmount != null and item.goodsAmount != ''">
+                    goods_amount,
+                </if>
+            </foreach>
+            goods_memo,
+            goods_name,
+            purchase_contract,
+            storage_date,
+            goods_supplier,
+            deliver_point,
+            warranty_clause,
+            opt_user
+        )VALUES
+        <foreach collection="deliverGoodsPojoList" item="item" index="index" separator=",">
+            (
+            #{item.deliverPojo.deliverId},
+            #{item.paramPojo.paramCode},
+            #{item.snCode},
+            #{item.installEnterprise},
+            #{item.jobNo},
+            #{item.analyzerNumber},
+            <if test="item.goodsAmount != null and item.goodsAmount != ''">
+                #{item.goodsAmount},
+            </if>
+            #{item.goodsMemo},
+            #{item.goodsName},
+            #{item.purchaseContract},
+            #{item.storageDate},
+            #{item.goodsSupplier},
+            #{item.deliverPoint},
+            #{item.warrantyClause},
+            #{item.optUserId}
+            )
+        </foreach>
+    </insert>
+
+    <!-- 更新发货单货物 -->
+    <update id="updateDeliverGoods" parameterType="java.util.List">
+        UPDATE tbl_sys_deliver_goods
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="pn_code = case " suffix="end,">
+                <foreach collection="deliverGoodsPojoList" item="item" index="index">
+                    when goods_id=#{item.goodsId} then #{item.paramPojo.paramCode}
+                </foreach>
+            </trim>
+            <trim prefix="sn_code = case " suffix="end,">
+                <foreach collection="deliverGoodsPojoList" item="item" index="index">
+                    when goods_id=#{item.goodsId} then #{item.snCode}
+                </foreach>
+            </trim>
+            <trim prefix="install_enterprise = case " suffix="end,">
+                <foreach collection="deliverGoodsPojoList" item="item" index="index">
+                    when goods_id=#{item.goodsId} then #{item.installEnterprise}
+                </foreach>
+            </trim>
+            <trim prefix="job_no = case " suffix="end,">
+                <foreach collection="deliverGoodsPojoList" item="item" index="index">
+                    when goods_id=#{item.goodsId} then #{item.jobNo}
+                </foreach>
+            </trim>
+            <trim prefix="analyzer_number = case " suffix="end,">
+                <foreach collection="deliverGoodsPojoList" item="item" index="index">
+                    when goods_id=#{item.goodsId} then #{item.analyzerNumber}
+                </foreach>
+            </trim>
+            <trim prefix="goods_amount = case " suffix="end,">
+                <foreach collection="deliverGoodsPojoList" item="item" index="index">
+                    when goods_id=#{item.goodsId} then #{item.goodsAmount}
+                </foreach>
+            </trim>
+            <trim prefix="goods_memo = case " suffix="end,">
+                <foreach collection="deliverGoodsPojoList" item="item" index="index">
+                    when goods_id=#{item.goodsId} then #{item.goodsMemo}
+                </foreach>
+            </trim>
+            <trim prefix="goods_name = case " suffix="end,">
+                <foreach collection="deliverGoodsPojoList" item="item" index="index">
+                    when goods_id=#{item.goodsId} then #{item.goodsName}
+                </foreach>
+            </trim>
+            <trim prefix="purchase_contract = case " suffix="end,">
+                <foreach collection="deliverGoodsPojoList" item="item" index="index">
+                    when goods_id=#{item.goodsId} then #{item.purchaseContract}
+                </foreach>
+            </trim>
+            <trim prefix="storage_date = case " suffix="end,">
+                <foreach collection="deliverGoodsPojoList" item="item" index="index">
+                    when goods_id=#{item.goodsId} then #{item.storageDate}
+                </foreach>
+            </trim>
+            <trim prefix="goods_supplier = case " suffix="end,">
+                <foreach collection="deliverGoodsPojoList" item="item" index="index">
+                    when goods_id=#{item.goodsId} then #{item.goodsSupplier}
+                </foreach>
+            </trim>
+            <trim prefix="deliver_point = case " suffix="end,">
+                <foreach collection="deliverGoodsPojoList" item="item" index="index">
+                    when goods_id=#{item.goodsId} then #{item.deliverPoint}
+                </foreach>
+            </trim>
+            <trim prefix="warranty_clause = case " suffix="end,">
+                <foreach collection="deliverGoodsPojoList" item="item" index="index">
+                    when goods_id=#{item.goodsId} then #{item.warrantyClause}
+                </foreach>
+            </trim>
+        </trim>
+        WHERE goods_id in
+        <foreach collection="deliverGoodsPojoList" index="index" item="item" separator="," open="(" close=")">
+            #{item.goodsId,jdbcType=BIGINT}
+        </foreach>
+    </update>
+
+    <!-- 更新发货单货物状态 -->
+    <update id="updateDeliverGoodsStatus" parameterType="com.tcb.pojo.DeliverGoodsPojo">
+        UPDATE tbl_sys_deliver_goods
+           SET goods_status = #{deliverGoodsPojo.goodsStatus},
+               return_memo = #{deliverGoodsPojo.returnMemo}
+        WHERE goods_id = #{deliverGoodsPojo.goodsId}
+    </update>
+
+    <!-- 更新发货单货物备注 -->
+    <update id="updateDeliverGoodsMemo" parameterType="com.tcb.pojo.DeliverGoodsPojo">
+        UPDATE tbl_sys_deliver_goods
+        SET goods_memo = #{deliverGoodsPojo.goodsMemo}
+        WHERE goods_id = #{deliverGoodsPojo.goodsId}
+    </update>
+
+    <!-- 更新发货单货安装厂家 -->
+    <update id="updateDeliverGoodsInstallEnterprise" parameterType="com.tcb.pojo.DeliverGoodsPojo">
+        UPDATE tbl_sys_deliver_goods
+        SET install_enterprise = #{deliverGoodsPojo.installEnterprise}
+        WHERE goods_id = #{deliverGoodsPojo.goodsId}
+    </update>
+
+    <!-- 删除发货单货物 -->
+    <delete id="deleteDeliverGoods" parameterType="java.util.List">
+        DELETE FROM tbl_sys_deliver_goods
+        WHERE deliver_id = #{deliverId}
+        <if test="idList != null and idList.size()>0">
+            AND goods_id IN
+            <foreach collection="idList" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </delete>
+
+</mapper>

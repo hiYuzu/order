@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>上传文件--订单管理系统</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="../../layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="../../css/font_eolqem241z66flxr.css" media="all" />
+    <link rel="stylesheet" href="../../css/user.css" media="all" />
+</head>
+<body class="childrenBody">
+<blockquote class="layui-elem-quote">
+    <div class="layui-inline">
+        <div class="layui-input-inline">
+            <input type="file" id="uploadFile" name="myFiles">
+        </div>
+        <a class="layui-btn layui-btn-xs" id="uploadSubmit">上传</a>
+    </div>
+</blockquote>
+<div class="layui-form">
+    <table id="fileListTable" lay-filter="fileListFilter">
+    </table>
+</div>
+<script id="barFileList" type="text/html">
+    <a class="layui-btn layui-btn-xs" lay-event="view" id="view">查看</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete" id="delete">删除</a>
+</script>
+<script type="text/javascript" src="../../layui/layui.js"></script>
+<script type="text/javascript" src="../../js/upload/jquery.min.js"></script>
+<script type="text/javascript" src="../../js/upload/ajaxfileupload.js"></script>
+<script type="text/javascript" src="uploadFile.js"></script>
+</body>
+</html>

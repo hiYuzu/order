@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tcb.dao.IUserDao" >
+
+    <resultMap id="userPojoResultMap" type="com.tcb.pojo.UserPojo" >
+        <id column="user_id" property="userId" jdbcType="INTEGER" />
+        <result column="user_code" property="userCode" jdbcType="VARCHAR"/>
+        <result column="user_password" property="userPassword" jdbcType="VARCHAR"/>
+        <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+        <result column="user_type" property="userType" jdbcType="VARCHAR"/>
+        <result column="stop_flag" property="stopFlag" jdbcType="BOOLEAN"/>
+        <result column="user_detail" property="userDetail" jdbcType="VARCHAR"/>
+        <result column="end_time" property="endTime" jdbcType="VARCHAR"/>
+        <result column="opt_user_id" property="optUserId" jdbcType="INTEGER"/>
+        <result column="opt_user_name" property="optUserName" jdbcType="VARCHAR"/>
+        <result column="opt_time" property="optTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!-- 查询用户个数 -->
+    <select id="getUserCount" resultType="java.lang.Integer">
+        SELECT COUNT(DISTINCT tsu.user_id)
+        FROM tbl_sys_user tsu
+        LEFT JOIN tbl_sys_user tsuopt ON tsu.opt_user = tsuopt.user_id
+        <where>
+            <if test="userPojo.userId != null and userPojo.userId > 0">
+                tsu.user_id = #{userPojo.userId}
+            </if>
+            <if test="userPojo.userCode != null and userPojo.userCode != ''">
+                AND tsu.user_code = #{userPojo.userCode}
+            </if>
+            <if test="userPojo.userPassword != null and userPojo.userPassword != ''">
+                AND tsu.user_password = #{userPojo.userPassword}
+            </if>
+            <if test="userPojo.userName != null and userPojo.userName != ''">
+                AND tsu.user_name LIKE CONCAT('%',CONCAT(#{userPojo.userName},'%'))
+            </if>
+            <if test="userPojo.userType != null and userPojo.userType != ''">
+                AND tsu.user_type = #{userPojo.userType}
+            </if>
+            <if test="userPojo.stopFlag != null">
+                AND tsu.stop_flag = #{userPojo.stopFlag}
+            </if>
+        </where>
+    </select>
+
+    <!-- 查询用户数据 -->
+    <select id="getUser" resultMap="userPojoResultMap">
+        SELECT DISTINCT tsu.user_id,
+                tsu.user_code,
+                tsu.user_password,
+                tsu.user_name,
+                tsu.user_type,
+                tsu.stop_flag,
+                tsu.user_detail,
+                tsu.end_time,
+                tsu.opt_user AS opt_user_id,
+                tsuopt.user_name AS opt_user_name,
+                tsu.opt_time
+          FROM tbl_sys_user tsu
+        LEFT JOIN tbl_sys_user tsuopt ON tsu.opt_user = tsuopt.user_id
+        <where>
+            <if test="userPojo.userId != null and userPojo.userId > 0">
+                tsu.user_id = #{userPojo.userId}
+            </if>
+            <if test="userPojo.userCode != null and userPojo.userCode != ''">
+                AND tsu.user_code = #{userPojo.userCode}
+            </if>
+            <if test="userPojo.userPassword != null and userPojo.userPassword != ''">
+                AND tsu.user_password = #{userPojo.userPassword}
+            </if>
+            <if test="userPojo.userName != null and userPojo.userName != ''">
+                AND tsu.user_name LIKE CONCAT('%',CONCAT(#{userPojo.userName},'%'))
+            </if>
+            <if test="userPojo.userType != null and userPojo.userType != ''">
+                AND tsu.user_type = #{userPojo.userType}
+            </if>
+            <if test="userPojo.stopFlag != null">
+                AND tsu.stop_flag = #{userPojo.stopFlag}
+            </if>
+        </where>
+        <if test="userPojo.rowIndex != null and userPojo.rowIndex >=0
+        and userPojo.rowCount != null and userPojo.rowCount>0">
+            LIMIT #{userPojo.rowIndex},#{userPojo.rowCount}
+        </if>
+    </select>
+
+    <!-- 新增用户数据 -->
+    <insert id="insertUser">
+      INSERT INTO tbl_sys_user(
+        user_code,
+        user_password,
+        user_name,
+        user_type,
+        stop_flag,
+        user_detail,
+        end_time,
+        opt_user
+      )VALUES (
+        #{userPojo.userCode},
+        #{userPojo.userPassword},
+        #{userPojo.userName},
+        #{userPojo.userType},
+        #{userPojo.stopFlag},
+        #{userPojo.userDetail},
+        #{userPojo.endTime},
+        #{userPojo.optUserId}
+      )
+    </insert>
+
+    <!-- 更新用户数据 -->
+    <update id="updateUser">
+        UPDATE tbl_sys_user
+        SET opt_time = #{userPojo.optTime}
+            ,user_code = #{userPojo.userCode}
+            ,user_name = #{userPojo.userName}
+            ,user_type = #{userPojo.userType}
+            ,stop_flag = #{userPojo.stopFlag}
+            ,user_detail = #{userPojo.userDetail}
+            ,opt_user = #{userPojo.optUserId}
+        WHERE user_id =  #{userPojo.userId}
+    </update>
+    
+    <!-- 更新用户密码 -->
+    <update id="updateUserPassword">
+        UPDATE tbl_sys_user
+           SET user_password = #{userPassword}
+         WHERE user_id = #{userId}
+    </update>
+
+    <!-- 更新用户登录时间 -->
+    <update id="updateUserLoginTime">
+        UPDATE tbl_sys_user
+        SET end_time = #{endTime}
+        WHERE user_id = #{userId}
+    </update>
+
+    <!-- 删除用户数据 -->
+    <delete id="deleteUser" parameterType="java.util.List">
+        DELETE FROM tbl_sys_user
+        <where>
+            <choose>
+                <when test="idList != null and idList.size()>0">
+                    user_id IN
+                    <foreach collection="idList" item="item" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </when>
+                <otherwise>
+                    user_id IS NULL
+                </otherwise>
+            </choose>
+        </where>
+    </delete>
+
+    <!-- 存在此用户（更新时） -->
+    <select id="existUpdateUser" resultType="java.lang.Integer">
+        SELECT COUNT(0)
+          FROM tbl_sys_user
+         WHERE user_id != #{userId}
+           AND user_code = #{userCode}
+    </select>
+
+    <!-- 通过userId获取userCode -->
+    <select id="getUserCodeById" resultType="java.lang.String">
+        SELECT user_code
+          FROM tbl_sys_user
+         WHERE user_id = #{userId}
+         LIMIT 0,1
+    </select>
+
+    <!-- 通过userId获取userType -->
+    <select id="getUserTypeById" resultType="java.lang.String">
+        SELECT user_type
+        FROM tbl_sys_user
+        WHERE user_id = #{userId}
+        LIMIT 0,1
+    </select>
+
+    <!-- 检查是否存在订单已用用户 -->
+    <select id="existDeliverUser" resultType="java.lang.Integer">
+        SELECT COUNT(DISTINCT deliver_id)
+        FROM tbl_sys_deliver
+        WHERE business_user = #{userId}
+    </select>
+
+</mapper>

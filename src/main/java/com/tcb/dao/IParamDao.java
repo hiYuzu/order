@@ -1,0 +1,85 @@
+package com.tcb.dao;
+
+import com.tcb.pojo.ParamPojo;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+
+/**
+ * @Author: WangLei
+ * @Description: 系统参数POJO
+ * @Date: Create in 2018/2/9 15:16
+ * @Modify by WangLei
+ */
+public interface IParamDao {
+
+    /**
+     * 查询系统参数个数
+     * @author WangLei
+     * @date 2018/2/9 15:17
+     * @param paramPojo
+     * @return int
+     */
+    int getParamCount(@Param("paramPojo")ParamPojo paramPojo);
+
+    /**
+     * 查询系统参数
+     * @author WangLei
+     * @date 2018/2/9 15:19
+     * @param paramPojo
+     * @return java.util.List<com.tcb.pojo.ParamPojo>
+     */
+    List<ParamPojo> getParam(@Param("paramPojo")ParamPojo paramPojo);
+
+    /**
+     * 查询系统参数(通过参数类型)
+     * @author WangLei
+     * @date 2018/2/9 15:19
+     * @param paramTypeCode
+     * @return java.util.List<com.tcb.pojo.ParamPojo>
+     */
+    List<ParamPojo> getParamByType(@Param("paramTypeCode")String paramTypeCode);
+
+    /**
+     *  新增系统参数
+     * @author WangLei
+     * @date 2018/2/9 15:21
+     * @param paramPojo
+     * @return int
+     */
+    int insertParam(@Param("paramPojo")ParamPojo paramPojo);
+
+    /**
+     * 更新系统参数
+     * @author WangLei
+     * @date 2018/2/9 15:22
+     * @param paramPojo
+     * @return int
+     */
+    int updateParam(@Param("paramPojo")ParamPojo paramPojo);
+
+    /**
+     * 删除系统参数
+     * @author WangLei
+     * @date 2018/2/9 15:23
+     * @param idList
+     * @return int
+     */
+    int deleteParam(@Param("idList")List<String> idList);
+
+    /**
+     * 存在此系统参数（更新时）
+     * @param paramId
+     * @param paramCode
+     * @return
+     */
+    int existUpdateParam(@Param("paramId")String paramId, @Param("paramCode")String paramCode);
+
+    /**
+     * 存在此系统参数(删除时)
+     * @param idList
+     * @return
+     */
+    int existDeleteParam(@Param("idList")List<String> idList);
+
+}

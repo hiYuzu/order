@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tcb.dao.IPageDao">
+
+    <resultMap id="pagePojoResultMap" type="com.tcb.pojo.PagePojo">
+        <id column="page_id" property="pageId" jdbcType="INTEGER"/>
+        <result column="page_code" property="pageCode" jdbcType="VARCHAR"/>
+        <result column="page_url" property="pageUrl" jdbcType="VARCHAR"/>
+        <result column="page_name_en" property="pageNameEn" jdbcType="VARCHAR"/>
+        <result column="page_name_cn" property="pageNameCn" jdbcType="VARCHAR"/>
+        <result column="page_remark" property="pageRemark" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- getPage -->
+    <select id="getPage" resultMap="pagePojoResultMap">
+        SELECT DISTINCT
+            tsp.page_id,
+            tsp.page_code,
+            tsp.page_url,
+            tsp.page_name_en,
+            tsp.page_name_cn,
+            tsp.page_remark
+        FROM tbl_sys_page tsp
+    </select>
+    
+</mapper>

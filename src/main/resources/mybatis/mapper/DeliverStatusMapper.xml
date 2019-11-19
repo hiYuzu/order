@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tcb.dao.IDeliverStatusDao">
+
+    <resultMap id="deliverStatusPojoResultMap" type="com.tcb.pojo.DeliverStatusPojo">
+        <id column="status_id" property="statusId" jdbcType="INTEGER"/>
+        <result column="status_code" property="statusCode" jdbcType="VARCHAR"/>
+        <result column="status_name" property="statusName" jdbcType="VARCHAR"/>
+        <result column="status_remark" property="statusRemark" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- 获取发货单状态信息 -->
+    <select id="getDeliverStatus" resultMap="deliverStatusPojoResultMap">
+        SELECT DISTINCT
+            status_id,
+            status_code,
+            status_name,
+            status_remark
+        FROM tbl_util_deliver_status
+    </select>
+
+</mapper>

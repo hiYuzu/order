@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tcb.dao.IInstallDao">
+
+    <resultMap id="goodsInstallResultMap" type="com.tcb.pojo.GoodsInstallPojo">
+        <id column="install_id" property="installId" jdbcType="BIGINT"/>
+        <result column="install_user" property="installUser" jdbcType="VARCHAR"/>
+        <result column="begin_time" property="beginTime" jdbcType="TIMESTAMP"/>
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP"/>
+        <result column="warranty_period" property="warrantyPeriod" jdbcType="TIMESTAMP"/>
+        <result column="install_status" property="installStatus" jdbcType="BOOLEAN"/>
+        <result column="contract_new_code" property="contractNewCode" jdbcType="VARCHAR"/>
+        <result column="deliver_date" property="deliverDate" jdbcType="TIMESTAMP"/>
+        <result column="contract_begin_time" property="contractBeginTime" jdbcType="TIMESTAMP"/>
+        <result column="contract_end_time" property="contractEndTime" jdbcType="TIMESTAMP"/>
+        <result column="instrument_brand" property="instrumentBrand" jdbcType="VARCHAR"/>
+        <result column="install_memo" property="installMemo" jdbcType="VARCHAR"/>
+        <result column="opt_user_id" property="optUserId" jdbcType="INTEGER"/>
+        <result column="opt_user_name" property="optUserName" jdbcType="VARCHAR"/>
+        <result column="opt_time" property="optTime" jdbcType="TIMESTAMP"/>
+        <association property="deliverGoodsPojo" column="goods_id" javaType="com.tcb.pojo.DeliverGoodsPojo"
+                     resultMap="com.tcb.dao.IDeliverGoodsDao.deliverGoodsPojoResultMap"></association>
+    </resultMap>
+
+    <!-- 查询安装货物个数 -->
+    <select id="getInstallGoodsCount" resultType="java.lang.Integer">
+        SELECT
+            COUNT(DISTINCT tsdg.goods_id)
+        FROM
+            tbl_sys_deliver_goods tsdg
+        INNER JOIN tbl_sys_deliver tsd ON tsdg.deliver_id = tsd.deliver_id
+        INNER JOIN tbl_sys_param tspd ON tsd.contract_type = tspd.param_code
+        INNER JOIN tbl_sys_param tsp ON tsdg.pn_code = tsp.param_code
+        LEFT JOIN tbl_sys_deliver_install tsdi ON tsdg.goods_id = tsdi.goods_id
+        LEFT JOIN tbl_sys_assemble tsa ON tsdg.sn_code = tsa.sn_code
+        LEFT JOIN tbl_sys_user tsup ON tsdg.opt_user = tsup.user_id
+        <where>
+            <if test="goodsInstallPojo.deliverGoodsPojo != null and goodsInstallPojo.deliverGoodsPojo.deliverPojo != null
+            and goodsInstallPojo.deliverGoodsPojo.deliverPojo.deliverId != null and goodsInstallPojo.deliverGoodsPojo.deliverPojo.deliverId > 0">
+                tsdg.deliver_id = #{goodsInstallPojo.deliverGoodsPojo.deliverPojo.deliverId}
+            </if>
+            <if test="goodsInstallPojo.deliverGoodsPojo != null and goodsInstallPojo.deliverGoodsPojo.deliverPojo != null
+            and goodsInstallPojo.deliverGoodsPojo.deliverPojo.contractCode != null and goodsInstallPojo.deliverGoodsPojo.deliverPojo.contractCode != ''">
+                AND tsd.contract_code = #{goodsInstallPojo.deliverGoodsPojo.deliverPojo.contractCode}
+            </if>
+            <if test="goodsInstallPojo.deliverGoodsPojo != null and goodsInstallPojo.deliverGoodsPojo.deliverPojo != null
+            and goodsInstallPojo.deliverGoodsPojo.deliverPojo.contractType != null and goodsInstallPojo.deliverGoodsPojo.deliverPojo.contractType.paramCode != null
+            and goodsInstallPojo.deliverGoodsPojo.deliverPojo.contractType.paramCode != ''">
+                AND tsd.contract_type = #{goodsInstallPojo.deliverGoodsPojo.deliverPojo.contractType.paramCode}
+            </if>
+            <if test="goodsInstallPojo.deliverGoodsPojo != null and goodsInstallPojo.deliverGoodsPojo.installEnterprise != null
+            and goodsInstallPojo.deliverGoodsPojo.installEnterprise != ''">
+                AND tsdg.install_enterprise LIKE CONCAT('%',CONCAT(#{goodsInstallPojo.deliverGoodsPojo.installEnterprise},'%'))
+            </if>
+            <if test="goodsInstallPojo.deliverGoodsPojo != null and goodsInstallPojo.deliverGoodsPojo.paramPojo != null
+            and goodsInstallPojo.deliverGoodsPojo.paramPojo.paramCode != null and goodsInstallPojo.deliverGoodsPojo.paramPojo.paramCode != ''">
+                AND tsdg.pn_code = #{goodsInstallPojo.deliverGoodsPojo.paramPojo.paramCode}
+            </if>
+            <if test="goodsInstallPojo.deliverGoodsPojo != null and goodsInstallPojo.deliverGoodsPojo.snCode != null
+            and goodsInstallPojo.deliverGoodsPojo.snCode != ''">
+                AND tsdg.sn_code LIKE CONCAT('%',CONCAT(#{goodsInstallPojo.deliverGoodsPojo.snCode},'%'))
+            </if>
+            <if test="goodsInstallPojo.installStatus != null">
+                <choose>
+                    <when test="goodsInstallPojo.installStatus == false">
+                        AND (tsdi.install_status = #{goodsInstallPojo.installStatus} OR tsdi.install_status IS NULL)
+                    </when>
+                    <otherwise>
+                        AND tsdi.install_status = #{goodsInstallPojo.installStatus}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="deliverStatusCodeList != null and deliverStatusCodeList.size()>0">
+                AND tsd.deliver_status IN
+                <foreach collection="deliverStatusCodeList" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <!-- 查询安装货物信息 -->
+    <select id="getInstallGoods" resultMap="goodsInstallResultMap">
+        SELECT
+            DISTINCT tsdg.goods_id,
+            tsdi.install_id,
+            tsdg.install_enterprise,
+            tsd.deliver_id,
+            tsd.deliver_type,
+            tsa.assemble_id,
+            tsd.contract_code,
+            tsp.param_code AS param_code_1,
+            tsp.param_name AS param_name_1,
+            tsd.contract_warranty,
+            tsd.contract_new_code,
+            DATE_FORMAT(tsd.deliver_date,'%Y-%m-%d %T') AS deliver_date,
+            DATE_FORMAT(tsd.contract_begin_time,'%Y-%m-%d %T') AS contract_begin_time,
+            DATE_FORMAT(tsd.contract_end_time,'%Y-%m-%d %T') AS contract_end_time,
+            tspd.param_code,
+            tspd.param_name,
+            tsdg.sn_code,
+            tsdg.analyzer_number,
+            tsdg.goods_memo,
+            tsdg.warranty_clause,
+            tsdi.install_user,
+            tsdi.begin_time,
+            tsdi.end_time,
+            tsdi.warranty_period,
+            tsdi.instrument_brand,
+            tsdi.install_status,
+            tsdi.install_memo,
+            tsdg.opt_user AS opt_user_id,
+            tsup.user_name AS opt_user_name,
+            tsdg.opt_time
+        FROM
+            tbl_sys_deliver_goods tsdg
+        INNER JOIN tbl_sys_deliver tsd ON tsdg.deliver_id = tsd.deliver_id
+        INNER JOIN tbl_sys_param tspd ON tsd.contract_type = tspd.param_code
+        INNER JOIN tbl_sys_param tsp ON tsdg.pn_code = tsp.param_code
+        LEFT JOIN tbl_sys_deliver_install tsdi ON tsdg.goods_id = tsdi.goods_id
+        LEFT JOIN tbl_sys_assemble tsa ON tsdg.sn_code = tsa.sn_code
+        LEFT JOIN tbl_sys_user tsup ON tsdg.opt_user = tsup.user_id
+        <where>
+            <if test="goodsInstallPojo.deliverGoodsPojo != null and goodsInstallPojo.deliverGoodsPojo.deliverPojo != null
+            and goodsInstallPojo.deliverGoodsPojo.deliverPojo.deliverId != null and goodsInstallPojo.deliverGoodsPojo.deliverPojo.deliverId > 0">
+                tsdg.deliver_id = #{goodsInstallPojo.deliverGoodsPojo.deliverPojo.deliverId}
+            </if>
+            <if test="goodsInstallPojo.deliverGoodsPojo != null and goodsInstallPojo.deliverGoodsPojo.deliverPojo != null
+            and goodsInstallPojo.deliverGoodsPojo.deliverPojo.contractCode != null and goodsInstallPojo.deliverGoodsPojo.deliverPojo.contractCode != ''">
+                AND tsd.contract_code = #{goodsInstallPojo.deliverGoodsPojo.deliverPojo.contractCode}
+            </if>
+            <if test="goodsInstallPojo.deliverGoodsPojo != null and goodsInstallPojo.deliverGoodsPojo.deliverPojo != null
+            and goodsInstallPojo.deliverGoodsPojo.deliverPojo.contractType != null and goodsInstallPojo.deliverGoodsPojo.deliverPojo.contractType.paramCode != null
+            and goodsInstallPojo.deliverGoodsPojo.deliverPojo.contractType.paramCode != ''">
+                AND tsd.contract_type = #{goodsInstallPojo.deliverGoodsPojo.deliverPojo.contractType.paramCode}
+            </if>
+            <if test="goodsInstallPojo.deliverGoodsPojo != null and goodsInstallPojo.deliverGoodsPojo.installEnterprise != null
+            and goodsInstallPojo.deliverGoodsPojo.installEnterprise != ''">
+                AND tsdg.install_enterprise LIKE CONCAT('%',CONCAT(#{goodsInstallPojo.deliverGoodsPojo.installEnterprise},'%'))
+            </if>
+            <if test="goodsInstallPojo.deliverGoodsPojo != null and goodsInstallPojo.deliverGoodsPojo.paramPojo != null
+            and goodsInstallPojo.deliverGoodsPojo.paramPojo.paramCode != null and goodsInstallPojo.deliverGoodsPojo.paramPojo.paramCode != ''">
+                AND tsdg.pn_code = #{goodsInstallPojo.deliverGoodsPojo.paramPojo.paramCode}
+            </if>
+            <if test="goodsInstallPojo.deliverGoodsPojo != null and goodsInstallPojo.deliverGoodsPojo.snCode != null
+            and goodsInstallPojo.deliverGoodsPojo.snCode != ''">
+                AND tsdg.sn_code LIKE CONCAT('%',CONCAT(#{goodsInstallPojo.deliverGoodsPojo.snCode},'%'))
+            </if>
+            <if test="goodsInstallPojo.installStatus != null">
+                <choose>
+                    <when test="goodsInstallPojo.installStatus == false">
+                        AND (tsdi.install_status = #{goodsInstallPojo.installStatus} OR tsdi.install_status IS NULL)
+                    </when>
+                    <otherwise>
+                        AND tsdi.install_status = #{goodsInstallPojo.installStatus}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="deliverStatusCodeList != null and deliverStatusCodeList.size()>0">
+                AND tsd.deliver_status IN
+                <foreach collection="deliverStatusCodeList" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        <if test="goodsInstallPojo.rowIndex != null and goodsInstallPojo.rowIndex >=0
+        and goodsInstallPojo.rowCount != null and goodsInstallPojo.rowCount>0">
+            LIMIT #{goodsInstallPojo.rowIndex},#{goodsInstallPojo.rowCount}
+        </if>
+    </select>
+
+    <!-- 新增安装货物信息 -->
+    <insert id="insertInstallGoods" parameterType="com.tcb.pojo.GoodsInstallPojo">
+        INSERT INTO tbl_sys_deliver_install(
+            goods_id,
+            install_user,
+            <if test="goodsInstallPojo.beginTime != null">
+                begin_time,
+            </if>
+            <if test="goodsInstallPojo.endTime != null">
+                end_time,
+            </if>
+            <if test="goodsInstallPojo.warrantyPeriod != null">
+                warranty_period,
+            </if>
+            install_status,
+            instrument_brand,
+            install_memo,
+            opt_user
+        )VALUES(
+            #{goodsInstallPojo.deliverGoodsPojo.goodsId},
+            #{goodsInstallPojo.installUser},
+            <if test="goodsInstallPojo.beginTime != null">
+                #{goodsInstallPojo.beginTime},
+            </if>
+            <if test="goodsInstallPojo.endTime != null">
+                #{goodsInstallPojo.endTime},
+            </if>
+            <if test="goodsInstallPojo.warrantyPeriod != null">
+                #{goodsInstallPojo.warrantyPeriod},
+            </if>
+            #{goodsInstallPojo.installStatus},
+            #{goodsInstallPojo.instrumentBrand},
+            #{goodsInstallPojo.installMemo},
+            #{goodsInstallPojo.optUserId}
+        )
+    </insert>
+
+    <!-- 更新安装货物信息 -->
+    <update id="updateInstallGoods" parameterType="com.tcb.pojo.GoodsInstallPojo">
+        UPDATE tbl_sys_deliver_install
+        SET goods_id = #{goodsInstallPojo.deliverGoodsPojo.goodsId}
+            ,install_user = #{goodsInstallPojo.installUser}
+            ,begin_time = #{goodsInstallPojo.beginTime}
+            ,end_time = #{goodsInstallPojo.endTime}
+            ,warranty_period = #{goodsInstallPojo.warrantyPeriod}
+            ,install_status = #{goodsInstallPojo.installStatus}
+            ,instrument_brand = #{goodsInstallPojo.instrumentBrand}
+            ,install_memo = #{goodsInstallPojo.installMemo}
+            ,opt_time = #{goodsInstallPojo.optTime}
+        WHERE install_id = #{goodsInstallPojo.installId,jdbcType=BIGINT}
+    </update>
+
+    <!-- 是否存在安装货物 -->
+    <select id="existInstallGoods" resultType="java.lang.Integer">
+        SELECT COUNT(DISTINCT install_id)
+        FROM tbl_sys_deliver_install
+        WHERE goods_id = #{goodsId}
+    </select>
+
+    <!-- 是否发货单全部安装完成 -->
+    <select id="existNotInstalledGoods" resultType="java.lang.Integer">
+        SELECT
+            COUNT(DISTINCT tsdg.goods_id)
+        FROM
+            tbl_sys_deliver_goods tsdg
+        LEFT JOIN tbl_sys_deliver_install tsdi ON tsdg.goods_id = tsdi.goods_id AND tsdi.install_status = '1'
+        WHERE
+            tsdg.deliver_id = #{deliverId}
+        AND tsdi.install_id IS NULL
+    </select>
+
+    <!-- 是否发货单存在安装完成 -->
+    <select id="existInstalledGoods" resultType="java.lang.Integer">
+        SELECT
+        COUNT(DISTINCT tsdg.goods_id)
+        FROM
+        tbl_sys_deliver_goods tsdg
+        INNER JOIN tbl_sys_deliver_install tsdi ON tsdg.goods_id = tsdi.goods_id AND tsdi.install_status = '1'
+        WHERE
+        tsdg.deliver_id = #{deliverId}
+    </select>
+
+</mapper>

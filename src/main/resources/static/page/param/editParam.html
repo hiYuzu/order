@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>参数修改--订单管理系统</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="../../layui/css/layui.css" media="all" />
+    <style type="text/css">
+        .layui-form-item .layui-inline{ width:33.333%; float:left; margin-right:0; }
+        @media(max-width:1240px){
+            .layui-form-item .layui-inline{ width:100%; float:none; }
+        }
+    </style>
+</head>
+<body class="childrenBody">
+<form class="layui-form" style="width:80%;">
+    <div class="layui-form-item" hidden="hidden">
+        <label class="layui-form-label">参数ID</label>
+        <div class="layui-input-block">
+            <input type="text" id="paramId" name="paramId" class="layui-input" lay-verify="required">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">参数类型</label>
+            <div class="layui-input-block">
+                <select id="paramType" name="paramTypeCode" class="paramType" lay-filter="paramType" style="min-height: 38px" class="layui-select">
+                    <option value="PN">P/N</option>
+                    <option value="CT">合同类型</option>
+                    <option value="PT">部件类型</option>
+                    <option value="OS">外购类型</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">参数编码</label>
+        <div class="layui-input-block">
+            <input type="text" id="paramCode" name="paramCode" class="layui-input" lay-verify="required" placeholder="请输入参数编码">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">参数数值</label>
+        <div class="layui-input-block">
+            <input type="text" id="paramName" name="paramName" class="layui-input" lay-verify="required" placeholder="请输入参数数值">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit="" lay-filter="editParam">确定</button>
+            <button id="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<script type="text/javascript" src="../../layui/layui.js"></script>
+<script type="text/javascript" src="editParam.js"></script>
+</body>
+</html>

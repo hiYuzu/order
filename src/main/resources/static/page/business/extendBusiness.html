@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>合同延保--订单管理系统</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="../../layui/css/layui.css" media="all" />
+    <style type="text/css">
+        .layui-form-item .layui-inline{ width:33.333%; float:left; margin-right:0; }
+        @media(max-width:1240px){
+            .layui-form-item .layui-inline{ width:100%; float:none; }
+        }
+    </style>
+</head>
+<body class="childrenBody">
+<form class="layui-form" id="deliverBusiness" style="width:80%;">
+    <div class="layui-form-item" hidden="hidden">
+        <label class="layui-form-label">发货单ID</label>
+        <div class="layui-input-block">
+            <input type="text" id="deliverId" name="deliverId" class="layui-input deliverId" readonly="readonly" lay-verify="required" placeholder="请输入发货单ID">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">合同编码</label>
+        <div class="layui-input-block">
+            <input type="text" id="contractCode" name="contractCode" class="layui-input layui-disabled"  disabled="disabled"
+                   lay-verify="required" placeholder="请输入合同编码">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">合同类型</label>
+            <div class="layui-input-block">
+                <select id="contractType" name="contractTypeCode" class="layui-disabled" lay-filter="contractTypeFilter" disabled="disabled" lay-verify="required">
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">客户名称</label>
+        <div class="layui-input-block">
+            <input type="text" id="customerName" name="customerName" class="layui-input layui-disabled" disabled="disabled"
+                   lay-verify="required" placeholder="请输入客户名称">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">发货日期</label>
+        <div class="layui-input-block">
+            <input type="text" id="deliverDate" name="deliverDate" placeholder="请输发货日期" lay-verify="required|date" disabled="disabled"
+                   class="layui-input layui-disabled">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">发保日期</label>
+        <div class="layui-input-block">
+            <input type="text" id="warrantyDate" name="warrantyDate" placeholder="请输发保日期" lay-verify="required|date" disabled="disabled"
+                   class="layui-input layui-disabled">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">发货起点</label>
+        <div class="layui-input-block">
+            <input type="text" id="deliverAddress" name="deliverAddress" class="layui-input layui-disabled" disabled="disabled"
+                   lay-verify="required" placeholder="请输入发货起点">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">商务处理</label>
+            <div class="layui-input-block">
+                <select id="businessUser" name="businessUserId" class="layui-disabled" disabled="disabled" lay-filter="businessUserFilter">
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">运单号</label>
+        <div class="layui-input-block">
+            <input type="text" id="deliverNo" name="deliverNo" class="layui-input layui-disabled" disabled="disabled"
+                   lay-verify="required" placeholder="请输入运单号">
+        </div>
+    </div>
+    <div class="layui-form-item" id="itemCnc">
+        <label class="layui-form-label">合同编号</label>
+        <div class="layui-input-block">
+            <input type="text" id="contractNewCode" name="contractNewCode" class="layui-input"
+                   lay-verify="contractNewCode" placeholder="请输入合同编码">
+        </div>
+    </div>
+    <div class="layui-form-item" id="itemCbt">
+        <label class="layui-form-label">开始时间</label>
+        <div class="layui-input-block">
+            <input type="text" id="contractBeginTime" name="contractBeginTime" class="layui-input"
+                   lay-verify="contractBeginTime" placeholder="请输入合同开始时间">
+        </div>
+    </div>
+    <div class="layui-form-item" id="itemCet">
+        <label class="layui-form-label">结束时间</label>
+        <div class="layui-input-block">
+            <input type="text" id="contractEndTime" name="contractEndTime" class="layui-input"
+                   lay-verify="contractEndTime" placeholder="请输入合同结束时间">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">合同金额</label>
+        <div class="layui-input-block">
+            <input type="text" id="contractAmount" name="contractAmount" class="layui-input layui-disabled" disabled="disabled"
+                   lay-verify="required" placeholder="请输入合同金额">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-block">
+                <textarea id="deliverRemark" name="deliverRemark" placeholder="请输入发货备注" disabled="disabled"
+                          class="layui-textarea layui-disabled"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">安装设备</label>
+        <div class="layui-input-block">
+            <table class="layui-table" id="goodsListTable" name="goodsListTable" lay-filter="goodsListFiler">
+            </table>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit="" lay-filter="extendBusiness">确定</button>
+        </div>
+    </div>
+</form>
+<script type="text/javascript" src="../../layui/layui.js"></script>
+<script type="text/javascript" src="../../js/common.js"></script>
+<script type="text/javascript" src="extendBusiness.js"></script>
+</body>
+</html>

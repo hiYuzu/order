@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>商务管理--订单管理系统</title>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="format-detection" content="telephone=no">
+	<link rel="stylesheet" href="../../layui/css/layui.css" media="all" />
+	<link rel="stylesheet" href="../../css/font_eolqem241z66flxr.css" media="all" />
+	<link rel="stylesheet" href="../../css/user.css" media="all" />
+</head>
+<body class="childrenBody">
+	<blockquote class="layui-elem-quote">
+		<div class="layui-inline">
+			<div class="layui-input-inline">
+				<select id="searchBsUser" name="searchBsUser" class="searchBsUser" lay-filter="searchBsUser" style="min-height: 38px" class="layui-select search_select">
+				</select>
+			</div>
+			<div class="layui-input-inline">
+				<select id="searchCtType" name="searchCtType" class="searchCtType" lay-filter="searchCtType" style="min-height: 38px" class="layui-select search_select">
+				</select>
+			</div>
+			<div class="layui-input-inline" style="display: none">
+				<select id="searchDeliverStatus" name="searchDeliverStatus" class="searchDeliverStatus" lay-filter="searchDeliverStatus" style="min-height: 38px" class="layui-select search_select">
+				</select>
+			</div>
+			<div class="layui-input-inline">
+				<select id="searchFinishFlag" name="searchFinishFlag" class="searchFinishFlag" lay-filter="searchFinishFlag" style="min-height: 38px" class="layui-select search_select">
+					<option value="">---请选择---</option>
+					<option value="0" selected="selected">未完成</option>
+					<option value="1">已完成</option>
+				</select>
+			</div>
+		    <div class="layui-input-inline">
+		    	<input type="text" value="" id="searchCtCode" placeholder="合同编码" class="layui-input search_input">
+		    </div>
+			<div class="layui-input-inline">
+				<input type="text" value="" id="searchCustomerName" placeholder="客户名称" class="layui-input search_input">
+			</div>
+			<div class="layui-input-inline">
+				<input type="text" value="" id="searchDeliverRemark" placeholder="合同备注" class="layui-input search_input">
+			</div>
+			<a class="layui-btn search_btn">查询</a>
+			<div class="layui-inline">
+				<a class="layui-btn layui-btn-normal exportExcel_btn">导出</a>
+			</div>
+		</div>
+	</blockquote>
+	<div class="layui-form">
+	  	<table id="deliverListTable" lay-filter="deliverListFilter">
+		</table>
+	</div>
+	<script id="barDeliverList" type="text/html">
+		<a class="layui-btn layui-btn-xs" lay-event="select" id="select">设备</a>
+		<a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="edit" id="edit">商务处理</a>
+		<a class="layui-btn layui-btn-xs layui-btn-radius layui-btn-normal" lay-event="extend" id="extend">延保</a>
+	</script>
+	<script type="text/javascript" src="../../layui/layui.js"></script>
+	<script type="text/javascript" src="businessList.js"></script>
+</body>
+</html>

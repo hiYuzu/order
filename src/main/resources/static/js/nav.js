@@ -1,0 +1,92 @@
+var navs = [{
+    "title": "系统首页",
+    "icon": "icon-computer",
+    "href": "page/main.html",
+    "spread": false
+}, {
+    "title": "组装管理",
+    "icon": "&#xe613;",//icon-edit
+    "href": "page/assemble/assembleList.html",
+    "spread": false
+}, {
+    "title": "测试管理",
+    "icon": "&#xe639;",
+    "href": "page/test/testList.html",
+    "spread": false
+}, {
+    "title": "老化管理",
+    "icon": "&#xe64c;",//&#xe638;
+    "href": "page/old/oldList.html",
+    "spread": false
+}, {
+    "title": "库存管理",
+    "icon": "&#xe637;",//&#xe647;
+    "href": "page/stock/stockList.html",
+    "spread": false
+}, {
+    "title": "外购管理",
+    "icon": "&#xe647;",
+    "href": "page/outsourcing/outsourcingList.html",
+    "spread": false
+}, {
+    "title": "发货管理",
+    "icon": "icon-text",
+    "href": "page/deliver/deliverList.html",
+    "spread": false
+}, {
+    "title": "商务管理",
+    "icon": "&#xe63a;",//icon-dongtaifensishu
+    "href": "page/business/businessList.html",
+    "spread": false
+}, {
+    "title": "安装管理",
+    "icon": "&#xe631;",
+    "href": "page/install/installList.html",
+    "spread": false
+}, {
+    "title": "维修管理",
+    "icon": "icon-shuaxin1",
+    "href": "page/repair/repairList.html",
+    "spread": false
+}, {
+    "title": "用户管理",
+    "icon": "icon-zhanghu",
+    "href": "page/user/userList.html",
+    "spread": false
+}, {
+    "title": "参数管理",
+    "icon": "icon-shezhi1",
+    "href": "page/param/paramList.html",
+    "spread": false
+}, {
+    "title": "权限管理",
+    "icon": "icon-lock1",
+    "href": "page/system/authoritySet.html",
+    "spread": false
+}, {
+    "title": "公告管理",
+    "icon": "&#xe600;",
+    "href": "page/news/newsList.html",
+    "spread": false
+}
+// ,{
+// 	"title" : "二级菜单演示",
+// 	"icon" : "&#xe61c;",
+// 	"href" : "",
+// 	"spread" : false,
+// 	"children" : [
+// 		{
+// 			"title" : "二级菜单1",
+// 			"icon" : "&#xe631;",
+// 			"href" : "",
+// 			"spread" : false
+// 		},
+// 		{
+// 			"title" : "二级菜单2",
+// 			"icon" : "&#xe631;",
+// 			"href" : "",
+// 			"spread" : false
+// 		}
+// 	]
+// }
+];

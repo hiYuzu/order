@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tcb.dao.IAssembleDao" >
+
+    <resultMap id="assemblePojoResultMap" type="com.tcb.pojo.AssemblePojo">
+        <id column="assemble_id" property="assembleId" jdbcType="BIGINT" />
+        <result column="sn_code" property="snCode" jdbcType="VARCHAR"/>
+        <result column="job_no" property="jobNo" jdbcType="VARCHAR"/>
+        <result column="crux_no" property="cruxNo" jdbcType="VARCHAR"/>
+        <result column="assemble_memo" property="assembleMemo" jdbcType="VARCHAR"/>
+        <result column="complete_date" property="completeDate" jdbcType="TIMESTAMP"/>
+        <result column="opt_user_id" property="optUserId" jdbcType="INTEGER"/>
+        <result column="opt_user_name" property="optUserName" jdbcType="VARCHAR"/>
+        <result column="opt_time" property="optTime" jdbcType="TIMESTAMP"/>
+        <association property="pnCode" column="pn_code" javaType="com.tcb.pojo.ParamPojo"
+                     resultMap="com.tcb.dao.IParamDao.paramPojoResultMap"></association>
+        <association property="assembleStatus" column="assemble_status" javaType="com.tcb.pojo.DeliverStatusPojo"
+                     resultMap="com.tcb.dao.IDeliverStatusDao.deliverStatusPojoResultMap"></association>
+    </resultMap>
+
+    <!-- 查询组装信息个数 -->
+    <select id="getAssembleCount" resultType="java.lang.Integer">
+        SELECT COUNT(DISTINCT tsa.assemble_id)
+        FROM tbl_sys_assemble tsa
+        INNER JOIN tbl_sys_param tsp ON tsa.pn_code = tsp.param_code
+        LEFT JOIN tbl_sys_user tsu ON tsa.opt_user = tsu.user_id
+        <where>
+            <if test="assemblePojo != null and assemblePojo.pnCode != null
+                and assemblePojo.pnCode.paramCode != null and assemblePojo.pnCode.paramCode != ''">
+                tsa.pn_code = #{assemblePojo.pnCode.paramCode}
+            </if>
+            <if test="assemblePojo != null and assemblePojo.snCode != null and assemblePojo.snCode !=''">
+                AND tsa.sn_code LIKE CONCAT('%',CONCAT(#{assemblePojo.snCode},'%'))
+            </if>
+            <if test="assemblePojo != null and assemblePojo.jobNo != null and assemblePojo.jobNo != ''">
+                AND tsa.job_no LIKE CONCAT('%',CONCAT(#{assemblePojo.jobNo},'%'))
+            </if>
+            <if test="statusCodeList != null and statusCodeList.size()>0">
+                AND tsa.assemble_status IN
+                <foreach collection="statusCodeList" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <!-- 查询组装信息 -->
+    <select id="getAssemble" resultMap="assemblePojoResultMap">
+        SELECT DISTINCT
+            tsa.assemble_id,
+            tsp.param_code,
+            tsp.param_name,
+            tsa.sn_code,
+            tuds.status_id,
+            tuds.status_code,
+            tuds.status_name,
+            tsa.job_no,
+            tsa.crux_no,
+            tsa.assemble_memo,
+            tsa.complete_date,
+            tsa.opt_user AS opt_user_id,
+            tsu.user_name AS opt_user_name,
+            tsa.opt_time
+        FROM tbl_sys_assemble tsa
+        INNER JOIN tbl_sys_param tsp ON tsa.pn_code = tsp.param_code
+        LEFT JOIN tbl_sys_user tsu ON tsa.opt_user = tsu.user_id
+        INNER JOIN tbl_util_deliver_status tuds ON tsa.assemble_status = tuds.status_code
+        <where>
+            <if test="assemblePojo != null and assemblePojo.pnCode != null
+                and assemblePojo.pnCode.paramCode != null and assemblePojo.pnCode.paramCode != ''">
+                tsa.pn_code = #{assemblePojo.pnCode.paramCode}
+            </if>
+            <if test="assemblePojo != null and assemblePojo.snCode != null and assemblePojo.snCode !=''">
+                AND tsa.sn_code LIKE CONCAT('%',CONCAT(#{assemblePojo.snCode},'%'))
+            </if>
+            <if test="assemblePojo != null and assemblePojo.jobNo != null and assemblePojo.jobNo != ''">
+                AND tsa.job_no LIKE CONCAT('%',CONCAT(#{assemblePojo.jobNo},'%'))
+            </if>
+            <if test="statusCodeList != null and statusCodeList.size()>0">
+                AND tsa.assemble_status IN
+                <foreach collection="statusCodeList" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        ORDER BY tsa.crux_no
+        <if test="assemblePojo.rowIndex != null and assemblePojo.rowIndex >=0
+            and assemblePojo.rowCount != null and assemblePojo.rowCount>0">
+            LIMIT #{assemblePojo.rowIndex},#{assemblePojo.rowCount}
+        </if>
+    </select>
+
+    <!-- 新增组装信息 -->
+    <insert id="insertAssemble" useGeneratedKeys="true" keyProperty="assemblePojo.assembleId"
+            parameterType="com.tcb.pojo.AssemblePojo">
+        INSERT INTO tbl_sys_assemble(
+            pn_code,
+            sn_code,
+            assemble_status,
+            job_no,
+            crux_no,
+            assemble_memo,
+            complete_date,
+            opt_user
+        )VALUES (
+            #{assemblePojo.pnCode.paramCode},
+            #{assemblePojo.snCode},
+            #{assemblePojo.assembleStatus.statusCode},
+            #{assemblePojo.jobNo},
+            #{assemblePojo.cruxNo},
+            #{assemblePojo.assembleMemo},
+            #{assemblePojo.completeDate},
+            #{assemblePojo.optUserId}
+        )
+    </insert>
+
+    <!-- 更新组装信息 -->
+    <update id="updateAssemble" parameterType="com.tcb.pojo.AssemblePojo">
+        UPDATE tbl_sys_assemble
+        SET pn_code = #{assemblePojo.pnCode.paramCode}
+        ,sn_code = #{assemblePojo.snCode}
+        ,assemble_status = #{assemblePojo.assembleStatus.statusCode}
+        ,job_no = #{assemblePojo.jobNo}
+        ,crux_no = #{assemblePojo.cruxNo}
+        ,assemble_memo = #{assemblePojo.assembleMemo}
+        ,complete_date = #{assemblePojo.completeDate}
+        ,opt_time = #{assemblePojo.optTime}
+        <if test="assemblePojo.optUserId != null and assemblePojo.optUserId>0">
+            ,opt_user = #{assemblePojo.optUserId}
+        </if>
+        WHERE assemble_id =  #{assemblePojo.assembleId}
+    </update>
+
+    <!-- 更新组装状态信息 -->
+    <update id="updateAssembleStatus">
+        UPDATE tbl_sys_assemble SET assemble_status = #{assembleStatus} WHERE assemble_id = #{assembleId}
+    </update>
+
+    <!-- 更新关键部件 -->
+    <update id="updateAssembleCruxNo">
+        UPDATE tbl_sys_assemble SET crux_no = #{cruxNo} WHERE assemble_id = #{assembleId}
+    </update>
+
+    <!-- 更新组装状态信息-批量 -->
+    <update id="updateAssembleStatusBatch">
+        UPDATE tbl_sys_assemble SET assemble_status = #{assembleStatus}
+        <where>
+            <choose>
+                <when test="assembleIdList != null and assembleIdList.size()>0">
+                    assemble_id IN
+                    <foreach collection="assembleIdList" item="item" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </when>
+                <otherwise>
+                    assemble_id IS NULL
+                </otherwise>
+            </choose>
+        </where>
+    </update>
+
+    <!-- 更新组装状态信息-发货单批量 -->
+    <update id="updateAssembleStatusBatchByDeliver">
+        UPDATE tbl_sys_assemble SET assemble_status = #{assembleStatus}
+        <where>
+            <choose>
+                <when test="deliverIdList != null and deliverIdList.size()>0">
+                    assemble_id IN (
+                        SELECT DISTINCT temp.assemble_id FROM
+                        (
+                            SELECT assemble_id AS assemble_id
+                            FROM tbl_sys_assemble tsa
+                            INNER JOIN tbl_sys_deliver_goods tsdg ON tsa.sn_code = tsdg.sn_code
+                            WHERE tsdg.deliver_id IN
+                            <foreach collection="deliverIdList" item="item" open="(" separator="," close=")">
+                                #{item}
+                            </foreach>
+                        ) temp
+                    )
+                </when>
+                <otherwise>
+                    assemble_id IS NULL
+                </otherwise>
+            </choose>
+        </where>
+    </update>
+
+    <!-- 删除组装信息 -->
+    <delete id="deleteAssemble" parameterType="java.util.List">
+        DELETE FROM tbl_sys_assemble
+        <where>
+            <choose>
+                <when test="idList != null and idList.size()>0">
+                    assemble_id IN
+                    <foreach collection="idList" item="item" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </when>
+                <otherwise>
+                    assemble_id IS NULL
+                </otherwise>
+            </choose>
+        </where>
+    </delete>
+
+    <!-- 组装单是否能被删除 -->
+    <select id="canAssembleDelete" resultType="java.lang.Integer">
+        SELECT COUNT(DISTINCT assemble_id)
+        FROM tbl_sys_assemble
+        WHERE assemble_id = #{assembleId}
+        AND assemble_status IN ('060','062')
+    </select>
+
+    <!-- 组装单是否能被修改 -->
+    <select id="canAssembleModify" resultType="java.lang.Integer">
+        SELECT COUNT(DISTINCT assemble_id)
+        FROM tbl_sys_assemble
+        WHERE assemble_id = #{assembleId}
+        AND assemble_status IN ('060','062')
+    </select>
+
+</mapper>

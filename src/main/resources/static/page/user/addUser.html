@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>用户添加--订单管理系统</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="../../layui/css/layui.css" media="all"/>
+    <style type="text/css">
+        .layui-form-item .layui-inline {
+            width: 33.333%;
+            float: left;
+            margin-right: 0;
+        }
+
+        @media (max-width: 1240px) {
+            .layui-form-item .layui-inline {
+                width: 100%;
+                float: none;
+            }
+        }
+    </style>
+</head>
+<body class="childrenBody">
+<form class="layui-form" id="userAdd" style="width:80%;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户编码</label>
+        <div class="layui-input-block">
+            <input type="text" id="userCode" name="userCode" class="layui-input userCode" lay-verify="required"
+                   placeholder="请输入用户编码">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户名称</label>
+        <div class="layui-input-block">
+            <input type="text" id="userName" name="userName" class="layui-input userName" lay-verify="required"
+                   placeholder="请输入登录名">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">停用标识</label>
+            <div class="layui-input-block userStopFlag">
+                <input type="radio" name="stopFlag" value="0" title="正常" checked>
+                <input type="radio" name="stopFlag" value="1" title="停用">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">用户类型</label>
+            <div class="layui-input-block">
+                <select id="userType" name="userType" class="userType" lay-filter="userType">
+                    <option value="6">组装用户</option>
+                    <option value="7">测试用户</option>
+                    <option value="8">老化用户</option>
+                    <option value="9">库存用户</option>
+                    <option value="10">外购用户</option>
+                    <option value="1">发货用户</option>
+                    <option value="2">商务用户</option>
+                    <option value="3">安装用户</option>
+                    <option value="4">维修用户</option>
+                    <option value="5">系统用户</option>
+                </select>
+            </div>
+        </div>
+        <!--<div class="layui-inline">-->
+        <!--<label class="layui-form-label">会员状态</label>-->
+        <!--<div class="layui-input-block">-->
+        <!--<select name="userStatus" class="userStatus" lay-filter="userStatus">-->
+        <!--<option value="0">正常使用</option>-->
+        <!--<option value="1">限制用户</option>-->
+        <!--</select>-->
+        <!--</div>-->
+        <!--</div>-->
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户描述</label>
+        <div class="layui-input-block">
+            <textarea id="userDetail" name="userDetail" placeholder="请输入用户描述"
+                      class="layui-textarea userDetail"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit="" lay-filter="addUser">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<script type="text/javascript" src="../../layui/layui.js"></script>
+<script type="text/javascript" src="addUser.js"></script>
+</body>
+</html>

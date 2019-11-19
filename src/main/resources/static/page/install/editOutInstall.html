@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>安装处理--订单管理系统</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="../../layui/css/layui.css" media="all"/>
+    <style type="text/css">
+        .layui-form-item .layui-inline {
+            width: 33.333%;
+            float: left;
+            margin-right: 0;
+        }
+
+        @media (max-width: 1240px) {
+            .layui-form-item .layui-inline {
+                width: 100%;
+                float: none;
+            }
+        }
+    </style>
+</head>
+<body class="childrenBody">
+<form class="layui-form" id="installGoods" style="width:80%;">
+    <div class="layui-form-item" hidden="hidden">
+        <label class="layui-form-label">发货单ID</label>
+        <div class="layui-input-block">
+            <input type="text" id="deliverId" name="deliverId" class="layui-input deliverId" readonly="readonly"
+                   lay-verify="required">
+        </div>
+    </div>
+    <div class="layui-form-item" hidden="hidden">
+        <label class="layui-form-label">货物ID</label>
+        <div class="layui-input-block">
+            <input type="text" id="goodsId" name="goodsId" class="layui-input goodsId" readonly="readonly"
+                   lay-verify="required">
+        </div>
+    </div>
+    <div class="layui-form-item" hidden="hidden">
+        <label class="layui-form-label">安装ID</label>
+        <div class="layui-input-block">
+            <input type="text" id="installId" name="installId" class="layui-input goodsId" readonly="readonly">
+        </div>
+    </div>
+    <div class="layui-form-item" hidden="hidden">
+        <label class="layui-form-label">单据类型</label>
+        <div class="layui-input-block">
+            <input type="text" id="deliverType" name="deliverType" class="layui-input" readonly="readonly" lay-verify="required" value="2">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">合同编码</label>
+        <div class="layui-input-block">
+            <input type="text" id="contractCode" name="contractCode" class="layui-input layui-disabled"
+                   disabled="disabled"
+                   lay-verify="required">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">合同类型</label>
+            <div class="layui-input-block">
+                <select id="contractType" name="contractTypeCode" class="layui-disabled" lay-filter="contractTypeFilter"
+                        disabled="disabled" lay-verify="required">
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item" id="itemCw">
+        <label class="layui-form-label">质保期条款</label>
+        <div class="layui-input-block">
+            <input type="text" id="warrantyClause" name="warrantyClause" class="layui-input layui-disabled"
+                   disabled="disabled" placeholder="请输入质保期条款">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">P/N</label>
+            <div class="layui-input-block">
+                <select id="pn" name="pnCode" class="layui-disabled" lay-filter="pnCodeFilter" disabled="disabled"
+                        lay-verify="required">
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">S/N</label>
+        <div class="layui-input-block">
+            <input type="text" id="snCode" name="snCode" class="layui-input layui-disabled" disabled="disabled"
+                   lay-verify="required">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">安装企业</label>
+        <div class="layui-input-block">
+            <input type="text" id="installEnterprise" name="installEnterprise" class="layui-input" lay-verify="installEnterprise"
+                   placeholder="请输入安装企业">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">安装人员</label>
+        <div class="layui-input-block">
+            <input type="text" id="installUser" name="installUser" placeholder="请输入安装人员" lay-verify="installUser"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">开始时间</label>
+        <div class="layui-input-block">
+            <input type="text" id="beginTime" name="beginTime" placeholder="请输入开始时间" lay-verify="beginTime"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">结束时间</label>
+        <div class="layui-input-block">
+            <input type="text" id="endTime" name="endTime" placeholder="请输入结束时间" lay-verify="endTime"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item" id="itemWp">
+        <label class="layui-form-label">质保期限</label>
+        <div class="layui-input-block">
+            <input type="text" id="warrantyPeriod" name="warrantyPeriod" placeholder="请输入质保期限"
+                   lay-verify="warrantyPeriod" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">安装备注</label>
+        <div class="layui-input-block">
+            <input type="text" id="installMemo" name="installMemo" placeholder="请输入安装备注" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-inline">
+        <label class="layui-form-label">操作类型</label>
+        <div class="layui-input-block">
+            <input type="radio" name="installStatusCode" value="1" title="完成">
+            <input type="radio" name="installStatusCode" value="0" title="未完成" checked>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit="" lay-filter="installGoods">确定</button>
+        </div>
+    </div>
+</form>
+<script type="text/javascript" src="../../layui/layui.js"></script>
+<script type="text/javascript" src="../../js/common.js"></script>
+<script type="text/javascript" src="editOutInstall.js"></script>
+</body>
+</html>

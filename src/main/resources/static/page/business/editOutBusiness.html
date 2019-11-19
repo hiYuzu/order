@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>发货单修改--订单管理系统</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="../../layui/css/layui.css" media="all"/>
+    <style type="text/css">
+        .layui-form-item .layui-inline {
+            width: 33.333%;
+            float: left;
+            margin-right: 0;
+        }
+
+        @media (max-width: 1240px) {
+            .layui-form-item .layui-inline {
+                width: 100%;
+                float: none;
+            }
+        }
+    </style>
+</head>
+<body class="childrenBody">
+<form class="layui-form" id="deliverBusiness" style="width:80%;">
+    <div class="layui-form-item" hidden="hidden">
+        <label class="layui-form-label">发货单ID</label>
+        <div class="layui-input-block">
+            <input type="text" id="deliverId" name="deliverId" class="layui-input deliverId" readonly="readonly"
+                   lay-verify="required" placeholder="请输入发货单ID">
+        </div>
+    </div>
+    <div class="layui-form-item" hidden="hidden">
+        <label class="layui-form-label">单据类型</label>
+        <div class="layui-input-block">
+            <input type="text" id="deliverType" name="deliverType" class="layui-input" readonly="readonly" lay-verify="required" value="2">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">合同编码</label>
+        <div class="layui-input-block">
+            <input type="text" id="contractCode" name="contractCode" class="layui-input" lay-verify="contractCode"
+                   placeholder="请输入合同编码">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">合同类型</label>
+            <div class="layui-input-block">
+                <select id="contractType" name="contractTypeCode" lay-filter="contractTypeFilter" lay-verify="contractType">
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">客户名称</label>
+        <div class="layui-input-block">
+            <input type="text" id="customerName" name="customerName" class="layui-input layui-disabled"
+                   disabled="disabled"
+                   lay-verify="required" placeholder="请输入客户名称">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">商务处理</label>
+            <div class="layui-input-block">
+                <select id="businessUser" name="businessUserId" class="layui-disabled" disabled="disabled"
+                        lay-filter="businessUserFilter">
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item" id="itemCw">
+        <label class="layui-form-label">合同质保期</label>
+        <div class="layui-input-block">
+            <input type="text" id="contractWarranty" name="contractWarranty" class="layui-input contractWarranty"
+                   lay-verify="contractWarranty" placeholder="请输入合同质保期限">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-block">
+                <textarea id="deliverRemark" name="deliverRemark" placeholder="请输入发货备注"
+                          class="layui-textarea deliverRemark"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">外购设备</label>
+        <div class="layui-input-block">
+            <table class="layui-table" id="outsourcingListTable" name="outsourcingListTable"
+                   lay-filter="outsourcingListFiler">
+            </table>
+            <input type="text" id="goodsModelString" name="goodsModelString" hidden="hidden">
+        </div>
+    </div>
+    <div class="layui-inline">
+        <label class="layui-form-label">操作类型</label>
+        <div class="layui-input-block optType">
+            <input type="radio" name="optType" value="1" title="同意" checked>
+            <input type="radio" name="optType" value="0" title="拒绝">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit="" lay-filter="businessOutsourcing">确定</button>
+        </div>
+    </div>
+</form>
+<script type="text/javascript" src="../../layui/layui.js"></script>
+<script type="text/javascript" src="../../js/common.js"></script>
+<script type="text/javascript" src="editOutBusiness.js"></script>
+</body>
+</html>

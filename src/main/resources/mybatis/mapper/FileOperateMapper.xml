@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tcb.dao.IFileOperateDao">
+	
+	<resultMap type="com.tcb.pojo.FilePojo" id="filePojoResultMap">
+		<id property="fileId" column="file_id" jdbcType="BIGINT"/>
+		<result property="fileName" column="file_name" jdbcType="VARCHAR"/>
+		<result property="filePath" column="file_path" jdbcType="VARCHAR"/>
+		<result property="uploadTime" column="upload_time" jdbcType="VARCHAR"/>
+		<result column="opt_user_id" property="optUserId" jdbcType="INTEGER"/>
+		<result column="opt_user_name" property="optUserName" jdbcType="VARCHAR"/>
+		<result column="opt_time" property="optTime" jdbcType="TIMESTAMP"/>
+		<association property="goodsInstallPojo" column="install_id" javaType="com.tcb.pojo.GoodsInstallPojo"
+			resultMap="com.tcb.dao.IInstallDao.goodsInstallResultMap"></association>
+	</resultMap>
+
+	<!-- 获取货物安装上传文件个数 -->
+	<select id="getInstallGoodsFileCount" resultType="java.lang.Integer">
+		SELECT COUNT(DISTINCT tsdf.file_id)
+		FROM
+			tbl_sys_deliver_file tsdf
+		INNER JOIN tbl_sys_deliver_install tsdi ON tsdf.install_id = tsdi.install_id
+		LEFT JOIN tbl_sys_user tsuopt ON tsdf.opt_user = tsuopt.user_id
+		<where>
+			<choose>
+				<when test="installId != null and installId != ''">
+					tsdf.install_id = #{installId}
+				</when>
+				<otherwise>
+					AND tsdf.install_id IS NULL
+				</otherwise>
+			</choose>
+		</where>
+	</select>
+	
+	<!-- 获取货物安装上传文件 -->
+	<select id="getInstallGoodsFile" resultMap="filePojoResultMap">
+		SELECT DISTINCT
+			tsdf.file_id,
+			tsdi.install_id,
+			tsdf.file_name,
+			tsdf.file_path,
+			tsdf.upload_time,
+			tsdf.opt_user AS opt_user_id,
+			tsuopt.user_name AS opt_user_name,
+			tsdf.opt_time
+		FROM
+			tbl_sys_deliver_file tsdf
+		INNER JOIN tbl_sys_deliver_install tsdi ON tsdf.install_id = tsdi.install_id
+		LEFT JOIN tbl_sys_user tsuopt ON tsdf.opt_user = tsuopt.user_id
+		<where>
+			<choose>
+				<when test="installId != null and installId != ''">
+					tsdf.install_id = #{installId}
+				</when>
+				<otherwise>
+					AND tsdf.install_id IS NULL
+				</otherwise>
+			</choose>
+		</where>
+	</select>
+	
+	<!-- 获取货物安装上传文件(单个) -->
+	<select id="getInstallGoodsFileSingle" resultMap="filePojoResultMap">
+		SELECT DISTINCT
+			tsdf.file_id,
+			tsdi.install_id,
+			tsdf.file_name,
+			tsdf.file_path,
+			tsdf.upload_time,
+			tsdf.opt_user AS opt_user_id,
+			tsuopt.user_name AS opt_user_name,
+			tsdf.opt_time
+		FROM
+			tbl_sys_deliver_file tsdf
+		INNER JOIN tbl_sys_deliver_install tsdi ON tsdf.install_id = tsdi.install_id
+		LEFT JOIN tbl_sys_user tsuopt ON tsdf.opt_user = tsuopt.user_id
+		<where>
+			<choose>
+				<when test="fileId != null and fileId != ''">
+					tsdf.file_id = #{fileId}
+				</when>
+				<otherwise>
+					AND tsdf.file_id IS NULL
+				</otherwise>
+			</choose>
+		</where>
+		LIMIT 0,1
+	</select>
+
+	<!-- 新增安装货物上传文件 -->
+	<insert id="insertInstallGoodsFile" parameterType="com.tcb.pojo.FilePojo">
+		INSERT INTO tbl_sys_deliver_file(
+			install_id,
+			file_name,
+			file_path,
+			upload_time,
+			opt_user
+		)
+		VALUES
+		(
+			#{filePojo.goodsInstallPojo.installId},
+			#{filePojo.fileName},
+			#{filePojo.filePath},
+			#{filePojo.uploadTime},
+			#{filePojo.optUserId}
+		)
+	</insert>
+
+	<!-- 删除安装货物上传文件 -->
+	<delete id="deleteInstallGoodsFile">
+		DELETE FROM tbl_sys_deliver_file
+		WHERE install_id = #{installId}
+		<if test="fileName != null and fileName != ''">
+			AND file_name = #{fileName}
+		</if>
+	</delete>
+
+</mapper>

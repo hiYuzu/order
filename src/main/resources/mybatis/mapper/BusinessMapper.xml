@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tcb.dao.IBusinessDao">
+
+    <!-- 发货单商务处理 -->
+    <update id="businessDeliver" parameterType="com.tcb.pojo.DeliverPojo">
+        UPDATE tbl_sys_deliver
+        SET deliver_no = #{deliverPojo.deliverNo}
+        ,contract_warranty = #{deliverPojo.contractWarranty}
+        ,contract_amount = #{deliverPojo.contractAmount}
+        ,deliver_remark = #{deliverPojo.deliverRemark}
+        ,deliver_status = #{deliverPojo.deliverStatus.statusCode}
+        ,contract_new_code = #{deliverPojo.contractNewCode}
+        ,contract_begin_time = #{deliverPojo.contractBeginTime}
+        ,contract_end_time = #{deliverPojo.contractEndTime}
+        ,opt_time = #{deliverPojo.optTime}
+        <if test="deliverPojo.deliverType == 2">
+            ,contract_code = #{deliverPojo.contractCode}
+            <if test = "deliverPojo.contractType != null and deliverPojo.contractType.paramCode != null and deliverPojo.contractType.paramCode != ''">
+                ,contract_type = #{deliverPojo.contractType.paramCode}
+            </if>
+        </if>
+        <if test="deliverPojo.optUserId != null and deliverPojo.optUserId>0">
+            ,opt_user = #{deliverPojo.optUserId}
+        </if>
+        WHERE deliver_id =  #{deliverPojo.deliverId}
+    </update>
+
+    <!-- 是否发货单能被商务处理 -->
+    <select id="canDeliverBusiness" resultType="java.lang.Integer">
+        SELECT COUNT(DISTINCT deliver_id)
+        FROM tbl_sys_deliver
+        WHERE deliver_id = #{deliverId}
+        AND deliver_status IN ('101','200')
+    </select>
+
+    <!-- 更新技术合同相关信息 -->
+    <update id="updateTsContract" parameterType="com.tcb.pojo.DeliverPojo">
+        UPDATE tbl_sys_deliver
+        SET   contract_new_code = #{deliverPojo.contractNewCode},
+        contract_begin_time = #{deliverPojo.contractBeginTime},
+        contract_end_time = #{deliverPojo.contractEndTime}
+        WHERE deliver_id = #{deliverPojo.deliverId}
+    </update>
+
+    <!-- 更新安装质保日期 -->
+    <update id="updateInstallWarranty">
+        UPDATE tbl_sys_deliver_install
+           SET warranty_period = #{warrantyPeriod}
+         WHERE goods_id IN(SELECT DISTINCT goods_id FROM tbl_sys_deliver_goods WHERE deliver_id = #{deliverId})
+    </update>
+
+</mapper>

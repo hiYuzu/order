@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>测试处理--订单管理系统</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="../../layui/css/layui.css" media="all"/>
+    <style type="text/css">
+        .layui-form-item .layui-inline {
+            width: 33.333%;
+            float: left;
+            margin-right: 0;
+        }
+
+        @media (max-width: 1240px) {
+            .layui-form-item .layui-inline {
+                width: 100%;
+                float: none;
+            }
+        }
+    </style>
+</head>
+<body class="childrenBody">
+<form class="layui-form" id="deliverUpdate" style="width:80%;">
+    <div class="layui-form-item" hidden="hidden">
+        <label class="layui-form-label">组装单ID</label>
+        <div class="layui-input-block">
+            <input type="text" id="assembleId" name="assembleId" class="layui-input assembleId" readonly="readonly"
+                   lay-verify="required" placeholder="请输入组装单ID">
+        </div>
+    </div>
+    <div class="layui-form-item" hidden="hidden">
+        <label class="layui-form-label">测试ID</label>
+        <div class="layui-input-block">
+            <input type="text" id="testId" name="testId" class="layui-input" readonly="readonly">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">P/N</label>
+            <div class="layui-input-block">
+                <select id="pnCode" name="pnCode" lay-filter="pnCodeFilter" lay-verify="required"
+                        class="layui-input layui-disabled" disabled="disabled">
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">S/N</label>
+        <div class="layui-input-block">
+            <input type="text" id="snCode" name="snCode" lay-verify="required"
+                   class="layui-input layui-disabled" disabled="disabled">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">工作单号</label>
+        <div class="layui-input-block">
+            <input type="text" id="jobNo" name="jobNo" lay-verify="required"
+                   class="layui-input layui-disabled" disabled="disabled">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">关键部件</label>
+        <div class="layui-input-block">
+            <input type="text" id="cruxNo" name="cruxNo" class="layui-input" lay-verify="required">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">完成日期</label>
+        <div class="layui-input-block">
+            <input type="text" id="completeDate" name="completeDate" placeholder="请输入完成日期" lay-verify="required|date"
+                   class="layui-input layui-disabled" disabled="disabled">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">组装备注</label>
+        <div class="layui-input-block">
+            <textarea id="assembleMemo" name="assembleMemo" placeholder="请输入组装备注"
+                      class="layui-textarea layui-disabled" disabled="disabled"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">部件类型</label>
+        <div class="layui-input-block">
+            <table class="layui-table" id="partsListTable" name="partsListTable" lay-filter="partsListFiler">
+            </table>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">开测时间</label>
+        <div class="layui-input-block">
+            <input type="text" id="beginTime" name="beginTime" placeholder="请输入开始测试时间" lay-verify="required|date"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">结测时间</label>
+        <div class="layui-input-block">
+            <input type="text" id="endTime" name="endTime" placeholder="请输入结束测试时间" lay-verify="required|date"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">测试备注</label>
+        <div class="layui-input-block">
+            <textarea id="testMemo" name="testMemo" placeholder="请输入测试备注" class="layui-textarea"></textarea>
+        </div>
+    </div>
+    <div class="layui-inline">
+        <label class="layui-form-label">操作类型</label>
+        <div class="layui-input-block optType">
+            <input type="radio" name="optType" value="1" title="测试通过" checked>
+            <input type="radio" name="optType" value="0" title="测试失败">
+            <input type="radio" name="optType" value="2" title="测试进行">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit="" lay-filter="updateTest">确定</button>
+            <button id="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<script type="text/javascript" src="../../layui/layui.js"></script>
+<script type="text/javascript" src="../../js/common.js"></script>
+<script type="text/javascript" src="editTest.js"></script>
+</body>
+</html>

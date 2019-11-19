@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tcb.dao.IRepairDao">
+
+    <resultMap id="goodsRepairResultMap" type="com.tcb.pojo.GoodsRepairPojo">
+        <id column="repair_id" property="repairId" jdbcType="BIGINT"/>
+        <result column="repair_user" property="repairUser" jdbcType="VARCHAR"/>
+        <result column="repair_time" property="repairTime" jdbcType="TIMESTAMP"/>
+        <result column="materiel_name" property="materielName" jdbcType="VARCHAR"/>
+        <result column="materiel_number" property="materielNumber" jdbcType="VARCHAR"/>
+        <result column="opt_user_id" property="optUserId" jdbcType="INTEGER"/>
+        <result column="opt_user_name" property="optUserName" jdbcType="VARCHAR"/>
+        <result column="opt_time" property="optTime" jdbcType="TIMESTAMP"/>
+        <association property="goodsInstallPojo" column="install_id" javaType="com.tcb.pojo.GoodsInstallPojo"
+                     resultMap="com.tcb.dao.IInstallDao.goodsInstallResultMap"></association>
+    </resultMap>
+
+    <!-- 查询设备维修记录个数 -->
+    <select id="getRepairGoodsCount" resultType="java.lang.Integer">
+        SELECT
+          COUNT(DISTINCT tsdr.repair_id)
+        FROM
+          tbl_sys_deliver_goods tsdg
+        INNER JOIN tbl_sys_deliver tsd ON tsdg.deliver_id = tsd.deliver_id
+        INNER JOIN tbl_sys_param tspd ON tsd.contract_type = tspd.param_code
+        INNER JOIN tbl_sys_param tsp ON tsdg.pn_code = tsp.param_code
+        INNER JOIN tbl_sys_deliver_install tsdi ON tsdg.goods_id = tsdi.goods_id
+        INNER JOIN tbl_sys_deliver_repair tsdr ON tsdi.install_id = tsdr.install_id
+        LEFT JOIN tbl_sys_user tsup ON tsdg.opt_user = tsup.user_id
+        <where>
+            tsdi.install_status = '1'
+            <if test="goodsRepairPojo.goodsInstallPojo != null and goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo != null
+            and goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.deliverPojo != null
+            and goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.deliverPojo.deliverId != null
+            and goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.deliverPojo.deliverId > 0">
+                AND tsdg.deliver_id = #{goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.deliverPojo.deliverId}
+            </if>
+            <if test="goodsRepairPojo.goodsInstallPojo != null and goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo != null
+            and goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.deliverPojo != null
+            and goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.deliverPojo.contractCode != null
+            and goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.deliverPojo.contractCode != ''">
+                AND tsd.contract_code = #{goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.deliverPojo.contractCode}
+            </if>
+            <if test="goodsRepairPojo.goodsInstallPojo != null and goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo != null
+            and goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.deliverPojo != null
+            and goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.deliverPojo.contractType != null
+            and goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.deliverPojo.contractType.paramCode != null
+            and goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.deliverPojo.contractType.paramCode != ''">
+                AND tsd.contract_type = #{goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.deliverPojo.contractType.paramCode}
+            </if>
+            <if test="goodsRepairPojo.goodsInstallPojo != null and goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo != null
+            and goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.installEnterprise != null
+            and goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.installEnterprise != ''">
+                AND tsdg.install_enterprise LIKE CONCAT('%',CONCAT(#{goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.installEnterprise},'%'))
+            </if>
+            <if test="goodsRepairPojo.goodsInstallPojo != null and goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo != null
+            and goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.paramPojo != null
+            and goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.paramPojo.paramCode != null
+            and goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.paramPojo.paramCode != ''">
+                AND tsdg.pn_code = #{goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.paramPojo.paramCode}
+            </if>
+            <if test="goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo != null
+            and goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.snCode != null
+            and goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.snCode != ''">
+                AND tsdg.sn_code LIKE CONCAT('%',CONCAT(#{goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.snCode},'%'))
+            </if>
+            <if test="goodsRepairPojo.repairTime != null">
+                AND tsdr.repair_time = #{goodsRepairPojo.repairTime}
+            </if>
+        </where>
+    </select>
+
+    <!-- 查询设备维修记录 -->
+    <select id="getRepairGoods" resultMap="goodsRepairResultMap">
+        SELECT
+            DISTINCT tsdr.repair_id,
+            tsdr.repair_user,
+            tsdr.repair_time,
+            tsdr.materiel_name,
+            tsdr.materiel_number,
+            tsdg.goods_id,
+            tsdi.install_id,
+            tsdg.install_enterprise,
+            tsd.deliver_id,
+            tsd.deliver_type,
+            tsd.contract_code,
+            tsp.param_code AS param_code_1,
+            tsp.param_name AS param_name_1,
+            tsd.contract_warranty,
+            tspd.param_code,
+            tspd.param_name,
+            tsdg.sn_code,
+            tsdi.install_user,
+            tsdi.begin_time,
+            tsdi.end_time,
+            tsdi.warranty_period,
+            tsdi.install_status,
+            tsdr.opt_user AS opt_user_id,
+            tsup.user_name AS opt_user_name,
+            tsdr.opt_time
+        FROM
+        tbl_sys_deliver_goods tsdg
+        INNER JOIN tbl_sys_deliver tsd ON tsdg.deliver_id = tsd.deliver_id
+        INNER JOIN tbl_sys_param tspd ON tsd.contract_type = tspd.param_code
+        INNER JOIN tbl_sys_param tsp ON tsdg.pn_code = tsp.param_code
+        INNER JOIN tbl_sys_deliver_install tsdi ON tsdg.goods_id = tsdi.goods_id
+        INNER JOIN tbl_sys_deliver_repair tsdr ON tsdi.install_id = tsdr.install_id
+        LEFT JOIN tbl_sys_user tsup ON tsdg.opt_user = tsup.user_id
+        <where>
+            tsdi.install_status = '1'
+            <if test="goodsRepairPojo.goodsInstallPojo != null and goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo != null
+            and goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.deliverPojo != null
+            and goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.deliverPojo.deliverId != null
+            and goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.deliverPojo.deliverId > 0">
+                AND tsdg.deliver_id = #{goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.deliverPojo.deliverId}
+            </if>
+            <if test="goodsRepairPojo.goodsInstallPojo != null and goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo != null
+            and goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.deliverPojo != null
+            and goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.deliverPojo.contractCode != null
+            and goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.deliverPojo.contractCode != ''">
+                AND tsd.contract_code = #{goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.deliverPojo.contractCode}
+            </if>
+            <if test="goodsRepairPojo.goodsInstallPojo != null and goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo != null
+            and goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.deliverPojo != null
+            and goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.deliverPojo.contractType != null
+            and goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.deliverPojo.contractType.paramCode != null
+            and goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.deliverPojo.contractType.paramCode != ''">
+                AND tsd.contract_type = #{goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.deliverPojo.contractType.paramCode}
+            </if>
+            <if test="goodsRepairPojo.goodsInstallPojo != null and goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo != null
+            and goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.installEnterprise != null
+            and goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.installEnterprise != ''">
+                AND tsdg.install_enterprise LIKE CONCAT('%',CONCAT(#{goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.installEnterprise},'%'))
+            </if>
+            <if test="goodsRepairPojo.goodsInstallPojo != null and goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo != null
+            and goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.paramPojo != null
+            and goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.paramPojo.paramCode != null
+            and goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.paramPojo.paramCode != ''">
+                AND tsdg.pn_code = #{goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.paramPojo.paramCode}
+            </if>
+            <if test="goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo != null
+            and goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.snCode != null
+            and goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.snCode != ''">
+                AND tsdg.sn_code LIKE CONCAT('%',CONCAT(#{goodsRepairPojo.goodsInstallPojo.deliverGoodsPojo.snCode},'%'))
+            </if>
+            <if test="goodsRepairPojo.repairTime != null">
+                AND tsdr.repair_time = #{goodsRepairPojo.repairTime}
+            </if>
+        </where>
+        <if test="goodsRepairPojo.rowIndex != null and goodsRepairPojo.rowIndex >=0
+        and goodsRepairPojo.rowCount != null and goodsRepairPojo.rowCount>0">
+            LIMIT #{goodsRepairPojo.rowIndex},#{goodsRepairPojo.rowCount}
+        </if>
+    </select>
+
+    <!-- 新增设备维修记录 -->
+    <insert id="insertRepairGoods" parameterType="com.tcb.pojo.GoodsRepairPojo">
+        INSERT INTO tbl_sys_deliver_repair(
+            install_id,
+            repair_user,
+            repair_time,
+            materiel_name,
+            materiel_number,
+            opt_user
+        )VALUES(
+            #{goodsRepairPojo.goodsInstallPojo.installId},
+            #{goodsRepairPojo.repairUser},
+            #{goodsRepairPojo.repairTime},
+            #{goodsRepairPojo.materielName},
+            #{goodsRepairPojo.materielNumber},
+            #{goodsRepairPojo.optUserId}
+        )
+    </insert>
+
+    <!-- 修改设备维修记录 -->
+    <update id="updateRepairGoods" parameterType="com.tcb.pojo.GoodsRepairPojo">
+        UPDATE tbl_sys_deliver_repair
+        SET install_id = #{goodsRepairPojo.goodsInstallPojo.installId}
+            ,repair_user = #{goodsRepairPojo.repairUser}
+            ,repair_time = #{goodsRepairPojo.repairTime}
+            ,materiel_name = #{goodsRepairPojo.materielName}
+            ,materiel_number = #{goodsRepairPojo.materielNumber}
+            ,opt_time = #{goodsRepairPojo.optTime}
+            ,opt_user = #{goodsRepairPojo.optUserId}
+        WHERE repair_id = #{goodsRepairPojo.repairId,jdbcType=BIGINT}
+    </update>
+
+    <!-- 删除设备维修记录 -->
+    <delete id="deleteRepairGoods">
+        DELETE FROM tbl_sys_deliver_repair
+        WHERE repair_id = #{repairId}
+    </delete>
+
+</mapper>

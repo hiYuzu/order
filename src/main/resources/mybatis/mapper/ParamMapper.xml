@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tcb.dao.IParamDao">
+
+    <resultMap id="paramTypePojoResultMap" type="com.tcb.pojo.ParamType">
+        <id column="type_id" property="typeId" jdbcType="INTEGER"/>
+        <result column="type_code" property="typeCode" jdbcType="VARCHAR"/>
+        <result column="type_name" property="typeName" jdbcType="VARCHAR"/>
+        <result column="type_remark" property="typeRemark" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="paramPojoResultMap" type="com.tcb.pojo.ParamPojo">
+        <id column="param_id" property="paramId" jdbcType="INTEGER"/>
+        <result column="param_code" property="paramCode" jdbcType="VARCHAR"/>
+        <result column="param_name" property="paramName" jdbcType="VARCHAR"/>
+        <result column="opt_user_id" property="optUserId" jdbcType="INTEGER"/>
+        <result column="opt_user_name" property="optUserName" jdbcType="VARCHAR"/>
+        <association property="paramType" column="param_type" javaType="com.tcb.pojo.ParamType"
+                     resultMap="paramTypePojoResultMap"></association>
+    </resultMap>
+
+    <resultMap id="paramPojoResultMap1" type="com.tcb.pojo.ParamPojo">
+        <id column="param_id_1" property="paramId" jdbcType="INTEGER"/>
+        <result column="param_code_1" property="paramCode" jdbcType="VARCHAR"/>
+        <result column="param_name_1" property="paramName" jdbcType="VARCHAR"/>
+        <result column="opt_user_id_1" property="optUserId" jdbcType="INTEGER"/>
+        <result column="opt_user_name_1" property="optUserName" jdbcType="VARCHAR"/>
+        <association property="paramType" column="param_type" javaType="com.tcb.pojo.ParamType"
+                     resultMap="paramTypePojoResultMap"></association>
+    </resultMap>
+
+    <!-- 查询系统参数个数 -->
+    <select id="getParamCount" resultType="java.lang.Integer">
+        SELECT COUNT(DISTINCT tsp.param_id)
+        FROM tbl_sys_param tsp
+        INNER JOIN tbl_util_param_type tupt ON tsp.param_type = tupt.type_code
+        LEFT JOIN tbl_sys_user tsuopt ON tsp.opt_user = tsuopt.user_id
+        <where>
+            <if test="paramPojo.paramType != null and paramPojo.paramType.typeCode != null
+            and paramPojo.paramType.typeCode != ''">
+                tupt.type_code = #{paramPojo.paramType.typeCode}
+            </if>
+            <if test="paramPojo.paramCode != null and paramPojo.paramCode != ''">
+                AND tsp.param_code = #{paramPojo.paramCode}
+            </if>
+            <if test="paramPojo.paramName != null and paramPojo.paramName != ''">
+                AND tsp.param_name LIKE CONCAT('%',CONCAT(#{paramPojo.paramName},'%'))
+            </if>
+        </where>
+    </select>
+
+    <!-- 查询系统参数 -->
+    <select id="getParam" resultMap="paramPojoResultMap">
+        SELECT DISTINCT
+            tsp.param_id,
+            tupt.type_code,
+            tupt.type_name,
+            tsp.param_code,
+            tsp.param_name,
+            tsp.opt_user AS opt_user_id,
+            tsuopt.user_name AS opt_user_name
+        FROM tbl_sys_param tsp
+        INNER JOIN tbl_util_param_type tupt ON tsp.param_type = tupt.type_code
+        LEFT JOIN tbl_sys_user tsuopt ON tsp.opt_user = tsuopt.user_id
+        <where>
+            <if test="paramPojo.paramType != null and paramPojo.paramType.typeCode != null
+            and paramPojo.paramType.typeCode != ''">
+                tupt.type_code = #{paramPojo.paramType.typeCode}
+            </if>
+            <if test="paramPojo.paramCode != null and paramPojo.paramCode != ''">
+                AND tsp.param_code = #{paramPojo.paramCode}
+            </if>
+            <if test="paramPojo.paramName != null and paramPojo.paramName != ''">
+                AND tsp.param_name LIKE CONCAT('%',CONCAT(#{paramPojo.paramName},'%'))
+            </if>
+        </where>
+        <if test="paramPojo.rowIndex != null and paramPojo.rowIndex >=0
+        and paramPojo.rowCount != null and paramPojo.rowCount>0">
+            LIMIT #{paramPojo.rowIndex},#{paramPojo.rowCount}
+        </if>
+    </select>
+
+    <!-- 查询系统参数(通过参数类型) -->
+    <select id="getParamByType" resultMap="paramPojoResultMap">
+        SELECT DISTINCT
+            tsp.param_id,
+            tupt.type_code,
+            tupt.type_name,
+            tsp.param_code,
+            tsp.param_name,
+            tsp.opt_user AS opt_user_id,
+            tsuopt.user_name AS opt_user_name
+        FROM tbl_sys_param tsp
+        INNER JOIN tbl_util_param_type tupt ON tsp.param_type = tupt.type_code
+        LEFT JOIN tbl_sys_user tsuopt ON tsp.opt_user = tsuopt.user_id
+        WHERE tsp.param_type = #{paramTypeCode}
+    </select>
+
+    <!-- 新增系统参数 -->
+    <insert id="insertParam" parameterType="com.tcb.pojo.ParamPojo">
+        INSERT INTO tbl_sys_param(
+            param_type,
+            param_code,
+            param_name,
+            opt_user
+        )VALUES(
+            #{paramPojo.paramType.typeCode},
+            #{paramPojo.paramCode},
+            #{paramPojo.paramName},
+            #{paramPojo.optUserId}
+        )
+    </insert>
+
+    <!-- 更新系统参数 -->
+    <update id="updateParam" parameterType="com.tcb.pojo.ParamPojo">
+        UPDATE tbl_sys_param
+        SET opt_time = #{paramPojo.optTime}
+            ,param_type = #{paramPojo.paramType.typeCode}
+            ,param_code = #{paramPojo.paramCode}
+            ,param_name = #{paramPojo.paramName}
+            ,opt_user = #{paramPojo.optUserId}
+        WHERE param_id = #{paramPojo.paramId}
+    </update>
+
+    <!-- 删除系统参数 -->
+    <delete id="deleteParam" parameterType="java.util.List">
+        DELETE FROM tbl_sys_param
+        <where>
+            <choose>
+                <when test="idList != null and idList.size()>0">
+                    param_id IN
+                    <foreach collection="idList" item="item" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </when>
+                <otherwise>
+                    param_id IS NULL
+                </otherwise>
+            </choose>
+        </where>
+    </delete>
+
+    <!-- 存在此系统参数（更新时） -->
+    <select id="existUpdateParam" resultType="java.lang.Integer">
+        SELECT COUNT(0)
+        FROM tbl_sys_param
+        WHERE param_id != #{paramId}
+        AND param_code = #{paramCode}
+    </select>
+
+    <!-- 存在此系统参数(删除时) -->
+    <select id="existDeleteParam" resultType="java.lang.Integer">
+        SELECT SUM(temp.exitcount)
+        FROM (
+            SELECT COUNT(DISTINCT tsd.deliver_id) AS exitcount
+            FROM tbl_sys_deliver tsd
+            WHERE tsd.contract_type = (
+                                        SELECT param_code FROM tbl_sys_param WHERE param_id IN
+                                        <foreach collection="idList" item="item" open="(" separator="," close=")">
+                                            #{item}
+                                        </foreach>
+                                      )
+            UNION
+            SELECT COUNT(DISTINCT tsdg.goods_id) AS exitcount
+            FROM tbl_sys_deliver_goods tsdg
+            WHERE tsdg.pn_code = (
+                                    SELECT param_code FROM tbl_sys_param WHERE param_id IN
+                                    <foreach collection="idList" item="item" open="(" separator="," close=")">
+                                        #{item}
+                                    </foreach>
+                                  )
+        ) temp
+    </select>
+
+</mapper>

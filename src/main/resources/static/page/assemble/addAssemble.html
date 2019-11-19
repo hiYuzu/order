@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>添加组装单--订单管理系统</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="../../layui/css/layui.css" media="all"/>
+    <style type="text/css">
+        .layui-form-item .layui-inline {
+            width: 33.333%;
+            float: left;
+            margin-right: 0;
+        }
+
+        @media (max-width: 1240px) {
+            .layui-form-item .layui-inline {
+                width: 100%;
+                float: none;
+            }
+        }
+    </style>
+</head>
+<body class="childrenBody">
+<form class="layui-form" id="deliverAdd" style="width:80%;">
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">P/N</label>
+            <div class="layui-input-block">
+                <select id="pnCode" name="pnCode" lay-filter="pnCodeFilter">
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">S/N</label>
+        <div class="layui-input-block">
+            <input type="text" id="snCode" name="snCode" class="layui-input snCode" lay-verify="required"
+                   placeholder="请输入S/N">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">工作单号</label>
+        <div class="layui-input-block">
+            <input type="text" id="jobNo" name="jobNo" class="layui-input" lay-verify="required" placeholder="请输入工作单号">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">关键部件</label>
+        <div class="layui-input-block">
+            <input type="text" id="cruxNo" name="cruxNo" class="layui-input" lay-verify="required" placeholder="请输入关键部件号">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">完成日期</label>
+        <div class="layui-input-block">
+            <input type="text" id="completeDate" name="completeDate" placeholder="请输入完成日期" lay-verify="required|date" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">组装备注</label>
+        <div class="layui-input-block">
+            <textarea id="assembleMemo" name="assembleMemo" class="layui-textarea assembleMemo"
+                      placeholder="请输入组装备注"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">部件类型</label>
+        <div class="layui-input-block">
+            <select id="partType" lay-filter="partTypeFilter" style="width: 50%">
+            </select>
+            <button class="layui-btn layui-btn-primary layui-btn-sm" id="addRow"><i class="layui-icon"></i></button>
+            <table class="layui-table" id="partsListTable" name="partsListTable" lay-filter="partsListFiler">
+            </table>
+            <input type="text" id="partsModelString" name="partsModelString" hidden="hidden">
+        </div>
+    </div>
+    <div class="layui-inline">
+        <label class="layui-form-label">操作类型</label>
+        <div class="layui-input-block optType">
+            <input type="radio" name="optType" value="1" title="提交测试" checked>
+            <input type="radio" name="optType" value="0" title="保存数据">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit="" lay-filter="addAssemble">确定</button>
+        </div>
+    </div>
+</form>
+<script id="barAssembleList" type="text/html">
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" id="del">删除</a>
+</script>
+<script type="text/javascript" src="../../layui/layui.js"></script>
+<script type="text/javascript" src="../../js/common.js"></script>
+<script type="text/javascript" src="addAssemble.js"></script>
+</body>
+</html>

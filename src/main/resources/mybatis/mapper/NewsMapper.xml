@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tcb.dao.INewsDao">
+
+    <resultMap id="newsPojoResultMap" type="com.tcb.pojo.NewsPojo">
+        <id column="news_id" property="newsId" jdbcType="BIGINT"/>
+        <result column="news_title" property="newsTitle" jdbcType="VARCHAR"/>
+        <result column="news_content" property="newsContent" jdbcType="VARCHAR"/>
+        <result column="news_author" property="newsAuthor" jdbcType="VARCHAR"/>
+        <result column="news_show" property="newsShow" jdbcType="BOOLEAN"/>
+        <result column="show_time" property="showTime" jdbcType="VARCHAR"/>
+        <result column="opt_user_id" property="optUserId" jdbcType="INTEGER"/>
+        <result column="opt_user_name" property="optUserName" jdbcType="VARCHAR"/>
+        <result column="opt_time" property="optTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!-- 查询公告个数 -->
+    <select id="getNewsCount" resultType="java.lang.Integer">
+        SELECT COUNT(DISTINCT tsn.news_id)
+        FROM tbl_sys_news tsn
+        LEFT JOIN tbl_sys_user tsuopt ON tsn.opt_user = tsuopt.user_id
+        <where>
+            <if test="newsPojo.newsId != null and newsPojo.newsId>0">
+                tsn.news_id = #{newsPojo.newsId}
+            </if>
+            <if test="newsPojo.newsTitle != null and newsPojo.newsTitle != ''">
+                AND tsn.news_title LIKE CONCAT('%',CONCAT(#{newsPojo.newsTitle},'%'))
+            </if>
+            <if test="newsPojo.newsContent != null and newsPojo.newsContent != ''">
+                AND tsn.news_content LIKE CONCAT('%',CONCAT(#{newsPojo.newsContent},'%'))
+            </if>
+        </where>
+    </select>
+
+    <!-- 查询公告 -->
+    <select id="getNews" resultMap="newsPojoResultMap">
+        SELECT DISTINCT
+            tsn.news_id,
+            tsn.news_title,
+            tsn.news_content,
+            tsn.news_author,
+            tsn.news_show,
+            tsn.show_time,
+            tsn.opt_user AS opt_user_id,
+            tsuopt.user_name AS opt_user_name,
+            tsn.opt_time
+        FROM tbl_sys_news tsn
+        LEFT JOIN tbl_sys_user tsuopt ON tsn.opt_user = tsuopt.user_id
+        <where>
+            <if test="newsPojo.newsId != null and newsPojo.newsId>0">
+                tsn.news_id = #{newsPojo.newsId}
+            </if>
+            <if test="newsPojo.newsShow != null and newsPojo.newsShow == true">
+                tsn.news_show = #{newsPojo.newsShow}
+            </if>
+            <if test="newsPojo.newsTitle != null and newsPojo.newsTitle != ''">
+                AND tsn.news_title LIKE CONCAT('%',CONCAT(#{newsPojo.newsTitle},'%'))
+            </if>
+            <if test="newsPojo.newsContent != null and newsPojo.newsContent != ''">
+                AND tsn.news_content LIKE CONCAT('%',CONCAT(#{newsPojo.newsContent},'%'))
+            </if>
+        </where>
+        ORDER BY tsn.show_time DESC
+        <if test="newsPojo.rowIndex != null and newsPojo.rowIndex >=0
+        and newsPojo.rowCount != null and newsPojo.rowCount>0">
+            LIMIT #{newsPojo.rowIndex},#{newsPojo.rowCount}
+        </if>
+    </select>
+
+    <!-- 新增公告 -->
+    <insert id="insertNews" parameterType="com.tcb.pojo.NewsPojo">
+        INSERT INTO tbl_sys_news(
+            news_title,
+            news_content,
+            news_author,
+            news_show,
+            show_time,
+            opt_user
+        )VALUES (
+            #{newsPojo.newsTitle},
+            #{newsPojo.newsContent},
+            #{newsPojo.newsAuthor},
+            #{newsPojo.newsShow},
+            #{newsPojo.showTime},
+            #{newsPojo.optUserId}
+        )
+    </insert>
+
+    <!-- 更新公告 -->
+    <update id="updateNews" parameterType="com.tcb.pojo.NewsPojo">
+        UPDATE tbl_sys_news
+          SET news_title = #{newsPojo.newsTitle},
+              news_content =  #{newsPojo.newsContent},
+              news_author =  #{newsPojo.newsAuthor},
+              news_show =  #{newsPojo.newsShow},
+              show_time =  #{newsPojo.showTime},
+              opt_user = #{newsPojo.optUserId},
+              opt_time = #{newsPojo.optTime}
+        WHERE news_id =  #{newsPojo.newsId}
+    </update>
+
+    <!-- 删除公告 -->
+    <delete id="deleteNews">
+        DELETE FROM tbl_sys_news
+        <where>
+            <choose>
+                <when test="idList != null and idList.size()>0">
+                    news_id IN
+                    <foreach collection="idList" item="item" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </when>
+                <otherwise>
+                    news_id IS NULL
+                </otherwise>
+            </choose>
+        </where>
+    </delete>
+
+</mapper>

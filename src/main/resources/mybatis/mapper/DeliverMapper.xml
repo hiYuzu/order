@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tcb.dao.IDeliverDao">
+
+    <resultMap id="deliverPojoResultMap" type="com.tcb.pojo.DeliverPojo">
+        <id column="deliver_id" property="deliverId" jdbcType="BIGINT"/>
+        <result column="deliver_type" property="deliverType" jdbcType="INTEGER"/>
+        <result column="contract_code" property="contractCode" jdbcType="VARCHAR"/>
+        <result column="customer_name" property="customerName" jdbcType="VARCHAR"/>
+        <result column="deliver_date" property="deliverDate" jdbcType="TIMESTAMP"/>
+        <result column="warranty_date" property="warrantyDate" jdbcType="TIMESTAMP"/>
+        <result column="deliver_address" property="deliverAddress" jdbcType="VARCHAR"/>
+        <result column="deliver_remark" property="deliverRemark" jdbcType="VARCHAR"/>
+        <result column="deliver_no" property="deliverNo" jdbcType="VARCHAR"/>
+        <result column="contract_warranty" property="contractWarranty" jdbcType="VARCHAR"/>
+        <result column="contract_amount" property="contractAmount" jdbcType="VARCHAR"/>
+        <result column="contract_new_code" property="contractNewCode" jdbcType="VARCHAR"/>
+        <result column="contract_begin_time" property="contractBeginTime" jdbcType="TIMESTAMP"/>
+        <result column="contract_end_time" property="contractEndTime" jdbcType="TIMESTAMP"/>
+        <result column="opt_user_id" property="optUserId" jdbcType="INTEGER"/>
+        <result column="opt_user_name" property="optUserName" jdbcType="VARCHAR"/>
+        <result column="opt_time" property="optTime" jdbcType="TIMESTAMP"/>
+        <association property="contractType" column="contract_type" javaType="com.tcb.pojo.ParamPojo"
+                     resultMap="com.tcb.dao.IParamDao.paramPojoResultMap"></association>
+        <association property="businessUser" column="business_user" javaType="com.tcb.pojo.UserPojo"
+                     resultMap="com.tcb.dao.IUserDao.userPojoResultMap"></association>
+        <association property="deliverStatus" column="deliver_status" javaType="com.tcb.pojo.DeliverStatusPojo"
+                     resultMap="com.tcb.dao.IDeliverStatusDao.deliverStatusPojoResultMap"></association>
+    </resultMap>
+
+    <!-- 查询发货单数据个数 -->
+    <select id="getDeliverCount" resultType="java.lang.Integer">
+        SELECT
+            COUNT(DISTINCT tsd.deliver_id)
+        FROM
+            tbl_sys_deliver tsd
+        INNER JOIN tbl_util_deliver_status tuds ON tsd.deliver_status = tuds.status_code
+        INNER JOIN tbl_sys_user tsu ON tsd.business_user = tsu.user_id
+        LEFT JOIN tbl_sys_param tsp ON tsd.contract_type = tsp.param_code
+        LEFT JOIN tbl_sys_user tsup ON tsd.opt_user = tsup.user_id
+        <where>
+            <if test="deliverPojo.deliverId != null and deliverPojo.deliverId > 0">
+                tsd.deliver_id = #{deliverPojo.deliverId}
+            </if>
+            <if test="deliverPojo.deliverType != null and deliverPojo.deliverType > 0">
+                AND tsd.deliver_type = #{deliverPojo.deliverType}
+            </if>
+            <if test="deliverPojo.contractCode != null and deliverPojo.contractCode != ''">
+                AND tsd.contract_code LIKE CONCAT('%',CONCAT(#{deliverPojo.contractCode},'%'))
+            </if>
+            <if test="deliverPojo.contractType != null and deliverPojo.contractType.paramCode != null
+            and deliverPojo.contractType.paramCode != ''">
+                AND tsp.param_code = #{deliverPojo.contractType.paramCode}
+            </if>
+            <if test="deliverPojo.customerName != null and deliverPojo.customerName != ''">
+                AND tsd.customer_name LIKE CONCAT('%',CONCAT(#{deliverPojo.customerName},'%'))
+            </if>
+            <if test="deliverPojo.businessUser != null and deliverPojo.businessUser.userId != null
+            and deliverPojo.businessUser.userId>0">
+                AND tsd.business_user = #{deliverPojo.businessUser.userId}
+            </if>
+            <if test="deliverPojo.deliverRemark != null and deliverPojo.deliverRemark != ''">
+                AND tsd.deliver_remark LIKE CONCAT('%',CONCAT(#{deliverPojo.deliverRemark},'%'))
+            </if>
+            <if test="deliverPojo.deliverStatus != null and deliverPojo.deliverStatus.statusCode != null
+            and deliverPojo.deliverStatus.statusCode != ''">
+                AND tsd.deliver_status = #{deliverPojo.deliverStatus.statusCode}
+            </if>
+            <if test="statusCodeList != null and statusCodeList.size()>0">
+                AND tsd.deliver_status IN
+                <foreach collection="statusCodeList" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <!-- 查询发货单数据 -->
+    <select id="getDeliver" resultMap="deliverPojoResultMap">
+        SELECT DISTINCT
+            tsd.deliver_id,
+            tsd.deliver_type,
+            tsd.contract_code,
+            tsp.param_id,
+            tsp.param_code,
+            tsp.param_name,
+            tsd.customer_name,
+            DATE_FORMAT(tsd.deliver_date,'%Y-%m-%d %T') AS deliver_date,
+            DATE_FORMAT(tsd.warranty_date,'%Y-%m-%d %T') AS warranty_date,
+            tsd.deliver_address,
+            tsu.user_id,
+            tsu.user_code,
+            tsu.user_name,
+            tsd.deliver_remark,
+            tuds.status_id,
+            tuds.status_code,
+            tuds.status_name,
+            tsd.deliver_no,
+            tsd.contract_amount,
+            tsd.contract_warranty,
+            tsd.contract_new_code,
+            DATE_FORMAT(tsd.contract_begin_time,'%Y-%m-%d %T') AS contract_begin_time,
+            DATE_FORMAT(tsd.contract_end_time,'%Y-%m-%d %T') AS contract_end_time,
+            tsup.user_id AS opt_user_id,
+            tsup.user_name AS opt_user_name,
+            tsd.opt_time
+        FROM
+            tbl_sys_deliver tsd
+        INNER JOIN tbl_util_deliver_status tuds ON tsd.deliver_status = tuds.status_code
+        INNER JOIN tbl_sys_user tsu ON tsd.business_user = tsu.user_id
+        LEFT JOIN tbl_sys_param tsp ON tsd.contract_type = tsp.param_code
+        LEFT JOIN tbl_sys_user tsup ON tsd.opt_user = tsup.user_id
+        <where>
+            <if test="deliverPojo.deliverId != null and deliverPojo.deliverId > 0">
+                tsd.deliver_id = #{deliverPojo.deliverId}
+            </if>
+            <if test="deliverPojo.deliverType != null and deliverPojo.deliverType > 0">
+                AND tsd.deliver_type = #{deliverPojo.deliverType}
+            </if>
+            <if test="deliverPojo.contractCode != null and deliverPojo.contractCode != ''">
+                AND tsd.contract_code LIKE CONCAT('%',CONCAT(#{deliverPojo.contractCode},'%'))
+            </if>
+            <if test="deliverPojo.contractType != null and deliverPojo.contractType.paramCode != null
+            and deliverPojo.contractType.paramCode != ''">
+                AND tsp.param_code = #{deliverPojo.contractType.paramCode}
+            </if>
+            <if test="deliverPojo.customerName != null and deliverPojo.customerName != ''">
+                AND tsd.customer_name LIKE CONCAT('%',CONCAT(#{deliverPojo.customerName},'%'))
+            </if>
+            <if test="deliverPojo.businessUser != null and deliverPojo.businessUser.userId != null
+            and deliverPojo.businessUser.userId>0">
+                AND tsd.business_user = #{deliverPojo.businessUser.userId}
+            </if>
+            <if test="deliverPojo.deliverRemark != null and deliverPojo.deliverRemark != ''">
+                AND tsd.deliver_remark LIKE CONCAT('%',CONCAT(#{deliverPojo.deliverRemark},'%'))
+            </if>
+            <if test="deliverPojo.deliverStatus != null and deliverPojo.deliverStatus.statusCode != null
+            and deliverPojo.deliverStatus.statusCode != ''">
+                AND tsd.deliver_status = #{deliverPojo.deliverStatus.statusCode}
+            </if>
+            <if test="statusCodeList != null and statusCodeList.size()>0">
+                AND tsd.deliver_status IN
+                <foreach collection="statusCodeList" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        <if test="deliverPojo.rowIndex != null and deliverPojo.rowIndex >=0
+        and deliverPojo.rowCount != null and deliverPojo.rowCount>0">
+            LIMIT #{deliverPojo.rowIndex},#{deliverPojo.rowCount}
+        </if>
+    </select>
+
+    <!-- 新增发货单 -->
+    <insert id="insertDeliver" useGeneratedKeys="true" keyProperty="deliverPojo.deliverId"
+            parameterType="com.tcb.pojo.DeliverPojo">
+        INSERT  INTO tbl_sys_deliver(
+            <if test="deliverPojo.deliverType != null and deliverPojo.deliverType > 0">
+                deliver_type,
+            </if>
+            contract_code,
+            contract_type,
+            customer_name,
+            deliver_date,
+            warranty_date,
+            deliver_address,
+            business_user,
+            deliver_remark,
+            deliver_status,
+            opt_user
+        )VALUES (
+            <if test="deliverPojo.deliverType != null and deliverPojo.deliverType > 0">
+                #{deliverPojo.deliverType},
+            </if>
+            #{deliverPojo.contractCode},
+            #{deliverPojo.contractType.paramCode},
+            #{deliverPojo.customerName},
+            #{deliverPojo.deliverDate},
+            #{deliverPojo.warrantyDate},
+            #{deliverPojo.deliverAddress},
+            #{deliverPojo.businessUser.userId},
+            #{deliverPojo.deliverRemark},
+            #{deliverPojo.deliverStatus.statusCode},
+            #{deliverPojo.optUserId}
+        )
+    </insert>
+
+    <!-- 更新发货单 -->
+    <update id="updateDeliver" parameterType="com.tcb.pojo.DeliverPojo">
+        UPDATE tbl_sys_deliver
+        SET contract_code = #{deliverPojo.contractCode}
+            ,contract_type = #{deliverPojo.contractType.paramCode}
+            ,customer_name = #{deliverPojo.customerName}
+            ,deliver_date = #{deliverPojo.deliverDate}
+            ,warranty_date = #{deliverPojo.warrantyDate}
+            ,deliver_address = #{deliverPojo.deliverAddress}
+            ,business_user = #{deliverPojo.businessUser.userId}
+            ,deliver_remark = #{deliverPojo.deliverRemark}
+            ,deliver_status = #{deliverPojo.deliverStatus.statusCode}
+            ,opt_time = #{deliverPojo.optTime}
+            <if test="deliverPojo.optUserId != null and deliverPojo.optUserId>0">
+                ,opt_user = #{deliverPojo.optUserId}
+            </if>
+            <if test="deliverPojo.deliverType != null and deliverPojo.deliverType > 0">
+                ,deliver_type = #{deliverPojo.deliverType}
+            </if>
+        WHERE deliver_id =  #{deliverPojo.deliverId}
+    </update>
+
+    <!-- 删除发货单 -->
+    <delete id="deleteDelivers" parameterType="java.util.List">
+        DELETE FROM tbl_sys_deliver
+        <where>
+            <choose>
+                <when test="idList != null and idList.size()>0">
+                    deliver_id IN
+                    <foreach collection="idList" item="item" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </when>
+                <otherwise>
+                    deliver_id IS NULL
+                </otherwise>
+            </choose>
+        </where>
+    </delete>
+
+    <!-- 是否发货单能被删除 -->
+    <select id="canDeliverDelete" resultType="java.lang.Integer">
+        SELECT COUNT(DISTINCT deliver_id)
+        FROM tbl_sys_deliver
+        WHERE deliver_id = #{deliverId}
+        AND deliver_status IN ('100','102')
+    </select>
+
+    <!-- 是否发货单能被修改 -->
+    <select id="canDeliverModify" resultType="java.lang.Integer">
+        SELECT COUNT(DISTINCT deliver_id)
+        FROM tbl_sys_deliver
+        WHERE deliver_id = #{deliverId}
+        AND deliver_status IN ('100','102')
+    </select>
+
+    <!-- 更新发货单状态 -->
+    <update id="updateDeliveryStatus">
+        UPDATE tbl_sys_deliver SET deliver_status = #{statusCoe} WHERE deliver_id = #{deliverId}
+    </update>
+
+</mapper>
