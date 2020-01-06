@@ -7,7 +7,6 @@ import java.sql.Timestamp;
 /**
  *
  * 日期转换工具
- * @author 王垒
  */
 public class BasePojo {
 

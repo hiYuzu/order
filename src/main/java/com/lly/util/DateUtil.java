@@ -33,14 +33,7 @@ public class DateUtil {
     public static final String DATA_DAY = "yyyy-MM-dd";
 
     /**
-     *
-     * <p>
      * [功能描述]：获取系统时间
-     * </p>
-     *
-     * @author 王垒, 2016年4月1日上午9:29:05
-     * @since EnvDust 1.0.0
-     *
      * @param millionSecond ：当前系统时间减去此参数
      * @return
      */
